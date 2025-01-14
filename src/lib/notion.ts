@@ -1,6 +1,7 @@
 import 'server-only';
 import { Client } from '@notionhq/client';
 import { NotionError, NotionFetchError } from '@/lib/error';
+import { QueryDatabaseParameters } from '@notionhq/client/build/src/api-endpoints';
 
 export class Notion {
   private static instances: Map<string, Notion> = new Map();
@@ -18,11 +19,12 @@ export class Notion {
     return Notion.instances.get(database) as Notion;
   }
 
-  async getDatabase() {
+  async getDatabase(props: Omit<QueryDatabaseParameters, 'database_id'>) {
     try {
       const notion = new Client({ auth: this.#key });
       const response = await notion.databases.query({
         database_id: this.#database,
+        ...props,
       });
       return response;
     } catch (error) {

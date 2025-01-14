@@ -1,22 +1,14 @@
 import type { Metadata } from 'next';
-import { Work_Sans } from 'next/font/google';
+import { Jua } from 'next/font/google';
 import Providers from '@/providers';
-// import localFont from 'next/font/local';
+import RootHeader from '@/app/components/RootHeader';
+import './global.css';
+import LeftNavigationLayout from '@/app/components/layout/LeftNavigationLayout';
 
-// const geistSans = localFont({
-//   src: './fonts/GeistVF.woff',
-//   variable: '--font-geist-sans',
-//   weight: '100 900',
-// });
-// const geistMono = localFont({
-//   src: './fonts/GeistMonoVF.woff',
-//   variable: '--font-geist-mono',
-//   weight: '100 900',
-// });
-
-const workSans = Work_Sans({
-  variable: '--font-work-sans',
-  weight: ['100', '900'],
+const jua = Jua({
+  variable: '--font-jua',
+  weight: ['400'],
+  subsets: ['latin'],
 });
 
 export const metadata: Metadata = {
@@ -30,9 +22,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko" style={{ colorScheme: 'light' }} data-theme="light">
-      <body className={`${workSans.variable}`}>
-        <Providers>{children}</Providers>
+    <html lang="ko" style={{ colorScheme: 'light' }}>
+      <body className={`${jua.className}`}>
+        <Providers>
+          <RootHeader />
+          <LeftNavigationLayout />
+          <main className={'ps-[var(--nav-width)] pt-[var(--header-height)]'}>
+            {children}
+          </main>
+        </Providers>
       </body>
     </html>
   );

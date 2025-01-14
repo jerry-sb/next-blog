@@ -1,16 +1,21 @@
 'use client';
-import { PropsWithChildren } from 'react';
-import StyledComponentsRegistry from '@/lib/registry';
+import { PropsWithChildren, useEffect, useState } from 'react';
 import { ThemeProvider } from 'next-themes';
-import GlobalStyle from '@/app/GlobalStyles';
 
 export default function Providers(props: PropsWithChildren) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return <>{props.children}</>;
+  }
+
   return (
-    <StyledComponentsRegistry>
-      <ThemeProvider>
-        <GlobalStyle />
-        {props.children}
-      </ThemeProvider>
-    </StyledComponentsRegistry>
+    <ThemeProvider defaultTheme={'light'} attribute="data-theme">
+      {props.children}
+    </ThemeProvider>
   );
 }

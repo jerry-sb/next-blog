@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    * {
+        @apply box-border p-0 m-0;
+        background-color: inherit;
+        font-family: inherit;
+    }
+
+    html, body {
+        @apply max-w-full;
+        height: 100vh;
+        background-color: var(--bg);
+        font-family: 'Work Sans', sans-serif; /* Tailwind의 font-family를 설정 */
+    }
+
+    a {
+        @apply text-inherit no-underline;
+    }
+
+    ul, li {
+        list-style: none;
+    }
+
+    :root {
+        --bg: #f8f8f5;
+        --layout-bg: #f2f1eb;
+        --fg: navy;
+
+        --headingcolor: #657220;
+        --primary-color: #d9f400;
+
+        --header-height: 4rem;
+        --nav-width: 18rem;
+    }
+
+    [data-theme="dark"] {
+        --bg: #000000;
+        --layout-bg: #272725;
+        --fg: #fff;
+
+        --headingcolor: #fff;
+        --primary-color: #f26828;
+    }
+
+    [data-theme='dark'] [data-hide-on-theme='dark'],
+    [data-theme='light'] [data-hide-on-theme='light'] {
+        @apply hidden;
+    }
+
+    nav, header {
+        background-color: var(--layout-bg);
+    }
+}
+
+@layer component {
+    .sub-category-list {
+        @apply flex flex-col gap-2 transition-transform duration-300 ease-in-out h-0 overflow-hidden;
+    }
+
+    .sub-category-list.active {
+        @apply h-auto overflow-visible;
+    }
+}
