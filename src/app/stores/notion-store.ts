@@ -1,47 +1,31 @@
 import { createStore } from 'zustand/vanilla';
 
-type NotionCategory = Record<
-  string,
-  {
-    title: string;
-    subCategories: { id: string; name: string }[];
-    blogCount: number;
-  }
->;
-
-type NotionSubcategory = Record<
-  string,
-  {
-    title: string;
-    blogCount: number;
-  }
->;
-
 export type NotionState = {
-  categories: NotionCategory;
-  subCategories: NotionSubcategory;
+  categoryActive: Record<string, boolean>;
 };
 
 export type NotionActions = {
-  setCategories: () => void;
-  addSubCategories: () => void;
-  setSubcategories: () => void;
+  updateCategoryActiveById: (id: string) => void;
 };
 
 export type NotionStore = NotionState & NotionActions;
 
 export const defaultInitState: NotionState = {
-  categories: {},
-  subCategories: {},
+  categoryActive: {},
 };
 
 export const createNotionStore = (
   initState: NotionState = defaultInitState
 ) => {
-  return createStore<NotionStore>()(() => ({
+  return createStore<NotionStore>()((set) => ({
     ...initState,
-    setCategories: () => {},
-    addSubCategories: () => {},
-    setSubcategories: () => {},
+    updateCategoryActiveById: (id: string) => {
+      set((state) => ({
+        categoryActive: {
+          ...state.categoryActive, // 기존 상태를 유지
+          [id]: !state.categoryActive[id], // 특정 `id`의 상태를 토글
+        },
+      }));
+    },
   }));
 };

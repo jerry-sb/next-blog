@@ -8,19 +8,18 @@ export async function GET(
     params,
   }: {
     params: Promise<{
-      database_id: string;
+      id: string;
     }>;
   }
 ) {
   try {
-    const { database_id } = await params;
+    const { id } = await params;
+    const notion = Notion.getInstance(
+      `${process.env.NEXT_PUBLIC_NOTION_BLOG_DATABASE}`
+    );
+    const page = await notion.getPageContent(id);
 
-    const notion = Notion.getInstance(database_id);
-    const database = await notion.getDatabase({});
-
-    return Response.json({
-      ...database,
-    });
+    return Response.json(page);
   } catch (e) {
     console.error(e);
     if (e instanceof NotionFetchError) {

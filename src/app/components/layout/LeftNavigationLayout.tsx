@@ -1,46 +1,18 @@
 import * as React from 'react';
-import { NotionDatabaseResponse } from '@/types/notion.database';
-import { CategoryProperty, SubCategoryProperty } from '@/types/notion.page';
 import {
   NotionCategoryList,
   NotionSubcategoryModel,
 } from '@/types/notion.model';
+import {
+  getCategories,
+  getSubcategories,
+} from '@/app/api/notion/database/getDatabase';
 import Category from '@/app/components/Category';
 
-const getCategories = async (): Promise<
-  NotionDatabaseResponse<CategoryProperty>
-> => {
-  const response = await fetch(
-    `http://localhost:3000/api/notion/database/${process.env.NOTION_CATEGORY_DATABASE}`,
-    {
-      next: {
-        revalidate: 3600,
-      },
-    }
-  );
-
-  return await response.json();
-};
-
-const getSubCategories = async (): Promise<
-  NotionDatabaseResponse<SubCategoryProperty>
-> => {
-  const response = await fetch(
-    `http://localhost:3000/api/notion/database/${process.env.NOTION_SUBCATEGORY_DATABASE}`,
-    {
-      next: {
-        revalidate: 3600,
-      },
-    }
-  );
-
-  return await response.json();
-};
-
-const CategoryList = async () => {
+const CategoryNavigation = async () => {
   const [categories, subCategories] = await Promise.all([
     getCategories(),
-    getSubCategories(),
+    getSubcategories(),
   ]);
 
   const categoryList: NotionCategoryList = [];
@@ -51,7 +23,7 @@ const CategoryList = async () => {
       const { Title, SubCategories, BlogCount } = category.properties;
       categoryList.push({
         id: category.id,
-        title: Title.title[0].text.content,
+        title: Title.title[0].plain_text,
         subCategories: SubCategories.relation.map((item) => item.id),
         blogCount: BlogCount.rollup.number,
       });
@@ -61,7 +33,7 @@ const CategoryList = async () => {
       const { Title, BlogCount } = subCategory.properties;
       subCategoryModel[`${subCategory.id}`] = {
         id: subCategory.id,
-        title: Title.title[0].text.content,
+        title: Title.title[0].plain_text,
         blogCount: BlogCount.rollup.number,
       };
     });
@@ -84,10 +56,10 @@ const LeftNavigationLayout = () => {
   return (
     <nav
       className={
-        'fixed left-0 h-full w-full lg:w-[var(--nav-width)] pt-[var(--header-height)]'
+        'fixed left-0 h-full w-full lg:w-[var(--nav-width)] pt-[var(--header-height)] z-10 overflow-hidden overflow-y-auto'
       }
     >
-      <CategoryList />
+      <CategoryNavigation />
     </nav>
   );
 };

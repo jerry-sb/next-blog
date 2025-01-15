@@ -5,7 +5,7 @@ import { QueryDatabaseParameters } from '@notionhq/client/build/src/api-endpoint
 
 export class Notion {
   private static instances: Map<string, Notion> = new Map();
-  readonly #key: string = process.env.NOTION_KEY as string;
+  readonly #key: string = process.env.NEXT_PUBLIC_NOTION_KEY as string;
   readonly #database: string;
 
   private constructor(database: string) {
@@ -39,6 +39,16 @@ export class Notion {
         block_id: pageId,
       });
       return response.results;
+    } catch (error) {
+      throw new NotionFetchError(error as NotionError);
+    }
+  }
+
+  async getPage(pageId: string) {
+    try {
+      const notion = new Client({ auth: this.#key });
+      const response = await notion.pages.retrieve({ page_id: pageId });
+      return response;
     } catch (error) {
       throw new NotionFetchError(error as NotionError);
     }

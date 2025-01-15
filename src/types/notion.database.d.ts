@@ -5,7 +5,6 @@ export interface NotionDatabaseResponse<T> {
   has_more: boolean;
   type: 'page_or_database';
   page_or_database: Record<string, unknown>;
-  request_id: string;
 }
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -32,7 +31,13 @@ export interface User {
 }
 
 export interface Cover {
-  any: string;
+  type: string;
+  file: File;
+}
+
+interface File {
+  url: string;
+  expiry_time: string;
 }
 
 export interface Icon {
@@ -104,6 +109,12 @@ export interface TitleProperty {
   id: string;
   type: 'title';
   title: Text[];
+}
+
+export interface RichTextProperty {
+  id: string;
+  type: 'rich_text';
+  rich_text: Text[];
 }
 
 export interface Text {

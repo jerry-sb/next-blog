@@ -4,6 +4,7 @@ import Providers from '@/providers';
 import RootHeader from '@/app/components/RootHeader';
 import './global.css';
 import LeftNavigationLayout from '@/app/components/layout/LeftNavigationLayout';
+import { NotionStoreProvider } from '@/app/stores/notion-store-provider';
 
 const jua = Jua({
   variable: '--font-jua',
@@ -26,10 +27,16 @@ export default function RootLayout({
       <body className={`${jua.className}`}>
         <Providers>
           <RootHeader />
-          <LeftNavigationLayout />
-          <main className={'ps-[var(--nav-width)] pt-[var(--header-height)]'}>
-            {children}
-          </main>
+          <NotionStoreProvider>
+            <LeftNavigationLayout />
+            <main
+              className={
+                'w-full h-full lg:ps-[var(--nav-width)] pt-[var(--header-height)]'
+              }
+            >
+              {children}
+            </main>
+          </NotionStoreProvider>
         </Providers>
       </body>
     </html>

@@ -3,19 +3,30 @@ import * as React from 'react';
 import { NotionCategory, NotionSubcategoryModel } from '@/types/notion.model';
 import { IoMdArrowDropdown } from 'react-icons/io';
 import Spacer from '@/app/components/common/Spacer';
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import clsx from 'clsx';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
+import { useNotionStore } from '@/app/stores/notion-store-provider';
 
-interface IProps {
+const Category = ({
+  category,
+  subCategoryModel,
+}: {
   category: NotionCategory;
   subCategoryModel: NotionSubcategoryModel;
-}
+}) => {
+  const { id } = useParams();
+  const categoryActive = useNotionStore((state) => state.categoryActive)[
+    category.id
+  ];
+  const updateCategoryActiveById = useNotionStore(
+    (state) => state.updateCategoryActiveById
+  );
 
-const Category = ({ category, subCategoryModel }: IProps) => {
-  const [active, setActive] = useState<boolean>(false);
-
-  const onCategoryClick = useCallback(() => setActive(!active), [active]);
+  const onCategoryClick = useCallback(() => {
+    updateCategoryActiveById(category.id);
+  }, [category.id]);
 
   const calculateHeight = () => {
     const itemHeight = 48;
@@ -36,8 +47,8 @@ const Category = ({ category, subCategoryModel }: IProps) => {
         <IoMdArrowDropdown
           size={23}
           className={clsx('transition-transform duration-300', {
-            'rotate-180': active,
-            'rotate-0': !active,
+            'rotate-180': categoryActive,
+            'rotate-0': !categoryActive,
           })}
         />
       </div>
@@ -46,20 +57,22 @@ const Category = ({ category, subCategoryModel }: IProps) => {
         className={clsx(
           'flex flex-col gap-2 transition-height duration-300 ease-in-out',
           {
-            'h-0 overflow-hidden': !active,
+            'h-0 overflow-hidden': !categoryActive,
           }
         )}
         style={{
-          height: active ? `${calculateHeight()}px` : '0px',
+          height: categoryActive ? `${calculateHeight()}px` : '0px',
         }}
       >
-        {category.subCategories.map((id) => {
-          const subCategory = subCategoryModel[`${id}`];
+        {category.subCategories.map((subcategoryId) => {
+          const subCategory = subCategoryModel[`${subcategoryId}`];
           return (
-            <li key={id}>
+            <li key={subcategoryId}>
               <Link
-                href={`/category/${id}`}
-                className="flex items-center gap-1 h-[48px] bg-[var(--primary-color)] px-2"
+                href={`/category/${subcategoryId}`}
+                className={clsx('flex items-center gap-1 h-[48px] px-2', {
+                  'primary-box': subcategoryId === id,
+                })}
               >
                 <span>{subCategory.title}</span>
                 <span className="text-sm">({subCategory.blogCount})</span>

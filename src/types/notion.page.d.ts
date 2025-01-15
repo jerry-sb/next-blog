@@ -1,6 +1,7 @@
 import {
   DateProperty,
   RelationProperty,
+  RichTextProperty,
   RollupProperty,
   StatusProperty,
   TitleProperty,
@@ -22,6 +23,7 @@ export interface SubCategoryProperty {
 export interface BlogProperty {
   Title: TitleProperty;
   SubCategory: RelationProperty;
+  SubcategoryName: RichTextProperty;
   Status: StatusProperty;
   InsertDate: DateProperty;
 }
