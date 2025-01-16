@@ -40,7 +40,7 @@ const CategoryNavigation = async () => {
   }
 
   return (
-    <ul className={'flex flex-col gap-3 w-full h-full p-4'}>
+    <ul className={'flex flex-col gap-3 w-full h-full p-4 visibility-switch'}>
       {categoryList.map((category) => (
         <Category
           key={category.id}
@@ -52,16 +52,4 @@ const CategoryNavigation = async () => {
   );
 };
 
-const LeftNavigationLayout = () => {
-  return (
-    <nav
-      className={
-        'fixed left-0 h-full w-full lg:w-[var(--nav-width)] pt-[var(--header-height)] z-10 overflow-hidden overflow-y-auto'
-      }
-    >
-      <CategoryNavigation />
-    </nav>
-  );
-};
-
-export default LeftNavigationLayout;
+export default CategoryNavigation;

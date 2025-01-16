@@ -8,7 +8,7 @@ export interface NotionDatabaseResponse<T> {
 }
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-export interface Page<T extends Record<string, unknown>> {
+export interface Page<T extends Record<string, any>> {
   object: string;
   id: string;
   created_time: string;

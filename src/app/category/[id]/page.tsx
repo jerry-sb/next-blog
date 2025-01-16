@@ -1,6 +1,5 @@
 import BlogList from '@/app/components/BlogList';
 import { NotionBlogList } from '@/types/notion.model';
-import Spacer from '@/app/components/common/Spacer';
 import {
   getBlogsBySubcategoryId,
   getSubcategories,
@@ -42,9 +41,8 @@ export default async function CategoryPage({
   }
 
   return (
-    <div className={'flex flex-col items-center justify-center mt-20'}>
+    <div className={'flex flex-col items-center justify-center my-20'}>
       <h1 className={'head-text1 italic underline'}>{categoryTitle}</h1>
-      <Spacer d={'vertical'} size={50} />
       <BlogList blogList={blogList} />
     </div>
   );

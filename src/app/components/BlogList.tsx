@@ -50,7 +50,7 @@ const BlogCard = ({ blog }: { blog: NotionBlog }) => {
 
 const BlogList = ({ blogList }: IProps) => {
   return (
-    <section className="grid grid-flow-row grid-cols-1 lg:grid-cols-2 w-full lg:w-[800px] xl:w-[1000px] gap-5">
+    <section className="grid grid-flow-row grid-cols-1 lg:grid-cols-2 w-full lg:w-[800px] xl:w-[1000px] gap-12 lg:gap-5 my-24">
       {blogList.map((blog) => (
         <BlogCard blog={blog} key={blog.id} />
       ))}

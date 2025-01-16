@@ -3,8 +3,9 @@ import { Jua } from 'next/font/google';
 import Providers from '@/providers';
 import RootHeader from '@/app/components/RootHeader';
 import './global.css';
-import LeftNavigationLayout from '@/app/components/layout/LeftNavigationLayout';
+import CategoryNavigation from '@/app/components/navigation/CategoryNavigation';
 import { NotionStoreProvider } from '@/app/stores/notion-store-provider';
+import CategoryNavigationLayout from '@/app/components/navigation/CategoryNavigationLayout';
 
 const jua = Jua({
   variable: '--font-jua',
@@ -28,10 +29,12 @@ export default function RootLayout({
         <Providers>
           <RootHeader />
           <NotionStoreProvider>
-            <LeftNavigationLayout />
+            <CategoryNavigationLayout>
+              <CategoryNavigation />
+            </CategoryNavigationLayout>
             <main
               className={
-                'w-full h-full lg:ps-[var(--nav-width)] pt-[var(--header-height)]'
+                'w-full h-full lg:ps-[var(--side-nav-width)] pt-[var(--header-height)]'
               }
             >
               {children}

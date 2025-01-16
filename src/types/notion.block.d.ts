@@ -1,6 +1,6 @@
 import { Icon, RichTextProperty, User } from '@/types/notion.database';
 
-export interface NotionBlockResponse {
+export interface BlockBase {
   object: 'block';
   id: string;
   parent: {
@@ -100,6 +100,4 @@ export type NotionBlock =
   | DividerBlock
   | Heading3Block;
 
-export interface NotionResponse {
-  results: NotionBlock[];
-}
+export type NotionBlockResponse = NotionBlock[];
