@@ -17,6 +17,17 @@ const Category = ({
   subCategoryModel: NotionSubcategoryModel;
 }) => {
   const { id } = useParams();
+
+  const updateCategoryNavigation = useNotionStore(
+    (state) => state.updateCategoryNavigation
+  );
+
+  const handleClick = () => {
+    if (window.innerWidth <= 1024) {
+      updateCategoryNavigation();
+    }
+  };
+
   const categoryActive = useNotionStore((state) => state.categoryActive)[
     category.id
   ];
@@ -67,12 +78,17 @@ const Category = ({
         {category.subCategories.map((subcategoryId) => {
           const subCategory = subCategoryModel[`${subcategoryId}`];
           return (
-            <li key={subcategoryId}>
+            <li key={subcategoryId} className={'group'} onClick={handleClick}>
               <Link
                 href={`/category/${subcategoryId}`}
-                className={clsx('flex items-center gap-1 h-[48px] px-2', {
-                  'primary-box': subcategoryId === id,
-                })}
+                className={clsx(
+                  'relative flex items-center gap-1 h-[48px] px-2',
+                  {
+                    'primary-box': subcategoryId === id,
+                    'group-hover:after:zig-zag-line after:absolute after:bottom-0':
+                      subcategoryId !== id,
+                  }
+                )}
               >
                 <span>{subCategory.title}</span>
                 <span className="text-sm">({subCategory.blogCount})</span>

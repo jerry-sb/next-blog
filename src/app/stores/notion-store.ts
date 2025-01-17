@@ -9,7 +9,7 @@ export type NotionState = {
 
 export type NotionActions = {
   updateCategoryActiveById: (id: string) => void;
-  updateCategoryNavigation: (type: CategoryNavigationType) => void;
+  updateCategoryNavigation: () => void;
 };
 
 export type NotionStore = NotionState & NotionActions;
@@ -22,7 +22,7 @@ export const defaultInitState: NotionState = {
 export const createNotionStore = (
   initState: NotionState = defaultInitState
 ) => {
-  return createStore<NotionStore>()((set) => ({
+  return createStore<NotionStore>()((set, get) => ({
     ...initState,
     updateCategoryActiveById: (id) => {
       set((state) => ({
@@ -32,8 +32,11 @@ export const createNotionStore = (
         },
       }));
     },
-    updateCategoryNavigation: (type) => {
-      set({ categoryNavigation: type });
+    updateCategoryNavigation: () => {
+      set({
+        categoryNavigation:
+          get().categoryNavigation === 'visible' ? 'hidden' : 'visible',
+      });
     },
   }));
 };

@@ -20,8 +20,10 @@ export default async function BlogDetailPage({
   const coverImage = cover?.file.url ?? '';
 
   return (
-    <div className="flex w-full mt-20  justify-center mx-auto relative">
-      <article className={'max-w-[850px] w-full lg:w-[850px] min-h-[8000px]'}>
+    <div className="flex w-full mt-20 justify-center mx-auto relative">
+      <article
+        className={'max-w-[850px] w-full lg:w-[850px] min-h-[8000px] p-4'}
+      >
         <PagePreview
           title={title}
           coverImage={coverImage}
@@ -30,7 +32,7 @@ export default async function BlogDetailPage({
       </article>
       <div className={'relative w-[0px] lg:w-[200px]'}>
         <nav
-          className={'top-[100px] w-[0px] lg:w-[200px] h-[500px] sticky'}
+          className={'top-[100px] w-[0px] lg:w-[200px] h-[500px] sticky p-2'}
         ></nav>
       </div>
     </div>
@@ -48,7 +50,7 @@ const PagePreview = ({
 }) => {
   return (
     <>
-      <h1 className={'head-text1'}>{title}</h1>
+      <h1 className={'head-text2 lg:head-text1'}>{title}</h1>
       <div className="relative w-full h-[450px] rounded-[15px] overflow-hidden my-14">
         <Image
           className="object-cover"

@@ -27,8 +27,8 @@ export default function RootLayout({
     <html lang="ko" style={{ colorScheme: 'light' }}>
       <body className={`${jua.className}`}>
         <Providers>
-          <RootHeader />
           <NotionStoreProvider>
+            <RootHeader />
             <CategoryNavigationLayout>
               <CategoryNavigation />
             </CategoryNavigationLayout>

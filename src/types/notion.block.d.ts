@@ -16,88 +16,88 @@ export interface BlockBase {
   in_trash: boolean;
 }
 
-export interface ToggleBlock extends BlockBase {
+export interface Toggle extends BlockBase {
   type: 'toggle';
   toggle: {
-    rich_text: RichText[];
+    rich_text: RichTextProperty;
     color: string;
   };
 }
 
-export interface ParagraphBlock extends BlockBase {
+export interface Paragraph extends BlockBase {
   type: 'paragraph';
   paragraph: {
-    rich_text: RichTextProperty[];
+    rich_text: RichTextProperty;
     color: string;
   };
 }
 
-export interface Heading2Block extends BlockBase {
+export interface Heading2 extends BlockBase {
   type: 'heading_2';
   heading_2: {
-    rich_text: RichTextProperty[];
+    rich_text: RichTextProperty;
     is_toggleable: boolean;
     color: string;
   };
 }
 
-export interface CalloutBlock extends BlockBase {
+export interface Callout extends BlockBase {
   type: 'callout';
   callout: {
-    rich_text: RichTextProperty[];
+    rich_text: RichTextProperty;
     icon: Icon;
     color: string;
   };
 }
 
-export interface ImageBlock extends BlockBase {
+export interface Image extends BlockBase {
   type: 'image';
   image: {
-    caption: RichText[];
+    caption: RichTextProperty;
     type: 'file';
     file: File;
   };
 }
 
-export interface BulletedListItemBlock extends BlockBase {
+export interface BulletedListItem extends BlockBase {
   type: 'bulleted_list_item';
   bulleted_list_item: {
-    rich_text: RichText[];
+    rich_text: RichTextProperty;
     color: string;
   };
 }
 
-export interface NumberedListItemBlock extends BlockBase {
+export interface NumberedListItem extends BlockBase {
   type: 'numbered_list_item';
   numbered_list_item: {
-    rich_text: RichText[];
+    rich_text: RichTextProperty;
     color: string;
   };
 }
 
-export interface DividerBlock extends BlockBase {
+export interface Divider extends BlockBase {
   type: 'divider';
   divider: Record<string, never>;
 }
 
-export interface Heading3Block extends BlockBase {
+export interface Heading3 extends BlockBase {
   type: 'heading_3';
   heading_3: {
-    rich_text: RichText[];
+    rich_text: RichTextProperty;
     is_toggleable: boolean;
     color: string;
   };
 }
 
 export type NotionBlock =
-  | ToggleBlock
-  | ParagraphBlock
-  | Heading2Block
-  | CalloutBlock
-  | ImageBlock
-  | BulletedListItemBlock
-  | NumberedListItemBlock
-  | DividerBlock
-  | Heading3Block;
+  | Toggle
+  | Paragraph
+  | Heading2
+  | Callout
+  | Image
+  | BulletedListItem
+  | NumberedListItem
+  | Divider
+  | Heading3;
 
 export type NotionBlockResponse = NotionBlock[];

@@ -7,7 +7,7 @@ const RootHeader = () => {
   return (
     <header
       className={
-        'flex justify-between items-center px-4 sm:px-8 fixed top-0 h-[var(--header-height)] z-20 w-full border-b-2 border-b-[var(--border-color)]'
+        'flex justify-between items-center px-4  fixed top-0 h-[var(--header-height)] z-20 w-full border-b-2 border-b-[var(--border-color)]'
       }
     >
       <div className={'flex flex-grow'}>

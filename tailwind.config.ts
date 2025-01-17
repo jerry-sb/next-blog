@@ -19,6 +19,7 @@ const config: Config = {
       animation: {
         spinner: 'spin 1s ease-in-out infinite',
         themeSpinner: 'theme-spin 0.4s ease-out',
+        zigzag: 'zigzag 0.8s infinite linear',
       },
       keyframes: {
         spin: {
@@ -28,6 +29,10 @@ const config: Config = {
         'theme-spin': {
           '0%': { transform: 'rotate(90deg)', opacity: '0.5' },
           '100%': { transform: 'rotate(0deg)', opacity: '1' },
+        },
+        zigzag: {
+          '0%': { backgroundPosition: '0 0, 12.5% 100%' },
+          '100%': { backgroundPosition: '25% 0, 37.5% 100%' },
         },
       },
     },

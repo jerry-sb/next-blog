@@ -11,7 +11,7 @@ interface IProps {
 
 const BlogCard = ({ blog }: { blog: NotionBlog }) => {
   return (
-    <div className="relative w-full flex items-center justify-center cursor-pointer group">
+    <div className="relative w-full flex items-center justify-center group">
       <div className="shadow-card rounded-[10px] overflow-hidden bg-white w-[600px] lg:w-full relative">
         {/* 이미지 섹션 */}
         <div className="relative w-full h-[200px]">
@@ -31,13 +31,13 @@ const BlogCard = ({ blog }: { blog: NotionBlog }) => {
             By <span className="font-semibold">Simba</span> •{' '}
             {formatDate(blog.insertDate)}
           </p>
-          <h3 className="head-text3">{blog.title}</h3>
+          <h4 className="head-text4">{blog.title}</h4>
         </div>
 
         {/* Hover 효과: 투명 배경 및 텍스트 */}
         <Link
           href={`/detail/${blog.id}`}
-          className="absolute inset-0 bg-black bg-opacity-50 opacity-0 flex items-center justify-center transition-opacity duration-300 group-hover:opacity-100"
+          className="absolute cursor-pointer inset-0 bg-black bg-opacity-50 opacity-0 flex items-center justify-center transition-opacity duration-300 group-hover:opacity-100"
         >
           <button className="primary-box flex items-center p-5">
             <IoArrowForward size={35} />

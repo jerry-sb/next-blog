@@ -40,7 +40,7 @@ const CategoryNavigation = async () => {
   }
 
   return (
-    <ul className={'flex flex-col gap-3 w-full h-full p-4 visibility-switch'}>
+    <ul className={'flex flex-col gap-3 w-full h-full p-4'}>
       {categoryList.map((category) => (
         <Category
           key={category.id}

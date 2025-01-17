@@ -1,14 +1,17 @@
 'use client';
 import * as React from 'react';
 import { SlMenu } from 'react-icons/sl';
+import { useNotionStore } from '@/app/stores/notion-store-provider';
 
 const BuggerButton = () => {
-  const onClickBugger = () => {};
+  const updateCategoryNavigation = useNotionStore(
+    (state) => state.updateCategoryNavigation
+  );
 
   return (
     <button
-      onClick={onClickBugger}
-      className={'p-2  border border-[var(--border-color)]'}
+      onClick={updateCategoryNavigation}
+      className={'p-2 border border-[var(--border-color)]'}
     >
       <SlMenu size={25} />
     </button>

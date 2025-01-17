@@ -13,7 +13,7 @@
         @apply max-w-full;
         height: 100vh;
         background-color: var(--bg);
-        font-family: 'Work Sans', sans-serif; /* Tailwind의 font-family를 설정 */
+        font-family: 'Work Sans', sans-serif;
     }
 
     a {
@@ -27,7 +27,7 @@
     :root {
         --bg: #f8f8f5;
         --layout-bg: #f2f1eb;
-        --border-color: #8c887d;
+        --border-color: #000000;
 
         --fg: navy;
 
@@ -52,17 +52,48 @@
         --card-shadow: 0px 0px 20px rgba(255, 255, 255, 0.4);
     }
 
+    .side-nav {
+        position: fixed;
+        left: 0;
+        padding-top: var(--header-height);
+        width: var(--side-nav-width);
+        height: var(--side-nav-height);
+        z-index: 10;
+    }
+
     @media (max-width: 1024px) {
-        :root {
-            --side-nav-width: 100%;
+        .side-nav {
+            transition: height 0.4s ease, visibility 0.4s ease;
+        }
+
+        [data-category-navigation="hidden"] {
+            --side-nav-width: 0;
             --side-nav-height: 0;
+            visibility: hidden;
+            overflow: hidden;
+        }
+
+        [data-category-navigation="visible"] {
+            --side-nav-width: 100%;
+            --side-nav-height: 100%;
+            visibility: visible;
+            overflow: auto;
         }
     }
 
     @media (min-width: 1025px) {
-        :root {
+        [data-category-navigation="hidden"] {
+            --side-nav-width: 0;
+            --side-nav-height: 0;
+            visibility: hidden;
+            overflow: hidden;
+        }
+
+        [data-category-navigation="visible"] {
             --side-nav-width: 15rem;
             --side-nav-height: 100%;
+            visibility: visible;
+            overflow: auto;
         }
     }
 
@@ -75,14 +106,17 @@
         background-color: var(--layout-bg);
     }
 
-    .side-nav {
-        position: fixed;
-        left: 0;
-        height: var(--side-nav-height);
-        width: var(--side-nav-width);
-        padding-top: var(--header-height);
-        z-index: 10;
-        transition: height 0.3s ease, visibility 0.3s ease;
+    .zig-zag-line {
+        --a: 90deg; /* control the angle */
+        --s: 10px; /* size of the zig-zag */
+        --b: 5px;  /* control the thickness */
+
+        background: var(--primary-color);
+        height: calc(var(--b) + var(--s)/(2*tan(var(--a)/2)));
+        width: 100%;
+        --_g:var(--s) repeat-x conic-gradient(from calc(var(--a)/-2) at bottom,
+        #0000,#000 1deg calc(var(--a) - 1deg),#0000 var(--a));
+        mask: 50% calc(-1*var(--b))/var(--_g) exclude,50%/var(--_g);
     }
 }
 
@@ -96,6 +130,10 @@
     };
 
     .head-text3 {
+        @apply text-2xl font-bold;
+    };
+
+    .head-text4 {
         @apply text-xl font-bold;
     };
 
