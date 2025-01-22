@@ -1,4 +1,10 @@
-import { Icon, RichTextProperty, User } from '@/types/notion.database';
+import {
+  File,
+  Icon,
+  RichTextProperty,
+  Text,
+  User,
+} from '@/types/notion.database';
 
 export interface BlockBase {
   object: 'block';
@@ -27,7 +33,16 @@ export interface Toggle extends BlockBase {
 export interface Paragraph extends BlockBase {
   type: 'paragraph';
   paragraph: {
-    rich_text: RichTextProperty;
+    rich_text: Text[];
+    color: string;
+  };
+}
+
+export interface Heading1 extends BlockBase {
+  type: 'heading_1';
+  heading_1: {
+    rich_text: Text[];
+    is_toggleable: boolean;
     color: string;
   };
 }
@@ -35,7 +50,7 @@ export interface Paragraph extends BlockBase {
 export interface Heading2 extends BlockBase {
   type: 'heading_2';
   heading_2: {
-    rich_text: RichTextProperty;
+    rich_text: Text[];
     is_toggleable: boolean;
     color: string;
   };
@@ -44,7 +59,7 @@ export interface Heading2 extends BlockBase {
 export interface Callout extends BlockBase {
   type: 'callout';
   callout: {
-    rich_text: RichTextProperty;
+    rich_text: Text[];
     icon: Icon;
     color: string;
   };
@@ -53,16 +68,25 @@ export interface Callout extends BlockBase {
 export interface Image extends BlockBase {
   type: 'image';
   image: {
-    caption: RichTextProperty;
+    caption: Text[];
     type: 'file';
     file: File;
+  };
+}
+
+export interface Code extends BlockBase {
+  type: 'code';
+  code: {
+    caption: Text[];
+    rich_text: Text[];
+    language: string;
   };
 }
 
 export interface BulletedListItem extends BlockBase {
   type: 'bulleted_list_item';
   bulleted_list_item: {
-    rich_text: RichTextProperty;
+    rich_text: Text[];
     color: string;
   };
 }
@@ -83,7 +107,7 @@ export interface Divider extends BlockBase {
 export interface Heading3 extends BlockBase {
   type: 'heading_3';
   heading_3: {
-    rich_text: RichTextProperty;
+    rich_text: Text[];
     is_toggleable: boolean;
     color: string;
   };
@@ -92,12 +116,14 @@ export interface Heading3 extends BlockBase {
 export type NotionBlock =
   | Toggle
   | Paragraph
+  | Heading1
   | Heading2
   | Callout
   | Image
   | BulletedListItem
   | NumberedListItem
   | Divider
-  | Heading3;
+  | Heading3
+  | Code;
 
 export type NotionBlockResponse = NotionBlock[];

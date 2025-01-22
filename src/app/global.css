@@ -27,9 +27,9 @@
     :root {
         --bg: #f8f8f5;
         --layout-bg: #f2f1eb;
-        --border-color: #000000;
+        --border-color: rgba(0, 0, 0, 0.3);
 
-        --fg: navy;
+        --fg: #000000;
 
         --headingcolor: #657220;
         --primary-color: #d9f400;
@@ -43,7 +43,7 @@
     [data-theme="dark"] {
         --bg: #000000;
         --layout-bg: #272725;
-        --border-color: #fff;
+        --border-color: rgba(255, 255, 255, 0.3);
 
         --fg: #fff;
 
@@ -55,6 +55,7 @@
     .side-nav {
         position: fixed;
         left: 0;
+        background: var(--layout-bg);
         padding-top: var(--header-height);
         width: var(--side-nav-width);
         height: var(--side-nav-height);
@@ -102,10 +103,6 @@
         @apply hidden;
     }
 
-    nav, header {
-        background-color: var(--layout-bg);
-    }
-
     .zig-zag-line {
         --a: 90deg; /* control the angle */
         --s: 10px; /* size of the zig-zag */
@@ -122,22 +119,43 @@
 
 @layer components {
     .head-text1 {
-        @apply text-5xl;
+        @apply text-5xl font-bold;
     };
 
     .head-text2 {
-        @apply text-4xl;
+        @apply text-4xl font-bold;
     };
 
     .head-text3 {
-        @apply text-2xl font-bold;
+        @apply text-3xl font-bold;
     };
 
     .head-text4 {
-        @apply text-xl font-bold;
+        @apply text-2xl font-bold;
     };
+
+    .head-text4-normal {
+        @apply text-2xl;
+    };
+
+    .head-text5-normal {
+        @apply text-lg;
+    };
+
+    .head-color {
+        @apply text-[var(--headingcolor)]
+    }
 
     .primary-box {
         @apply border border-[var(--border-color)] bg-[var(--primary-color)];
+    }
+}
+
+@layer utilities {
+    .content-dot {
+        @apply inline-block w-[20px];
+        content: "•";
+        font-size: 20px;
+        color: var(--border-color);
     }
 }

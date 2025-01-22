@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Jua } from 'next/font/google';
+import { Open_Sans } from 'next/font/google';
 import Providers from '@/providers';
 import RootHeader from '@/app/components/RootHeader';
 import './global.css';
@@ -7,9 +7,9 @@ import CategoryNavigation from '@/app/components/navigation/CategoryNavigation';
 import { NotionStoreProvider } from '@/app/stores/notion-store-provider';
 import CategoryNavigationLayout from '@/app/components/navigation/CategoryNavigationLayout';
 
-const jua = Jua({
+const jua = Open_Sans({
   variable: '--font-jua',
-  weight: ['400'],
+  weight: ['400', '500', '600', '700', '800'],
   subsets: ['latin'],
 });
 

@@ -53,7 +53,7 @@ const Category = ({
         onClick={onCategoryClick}
       >
         <div>
-          <span className={'text-lg'}>{category.title}</span>
+          <span className={'text-lg font-bold'}>{category.title}</span>
         </div>
         <IoMdArrowDropdown
           size={23}
@@ -90,7 +90,7 @@ const Category = ({
                   }
                 )}
               >
-                <span>{subCategory.title}</span>
+                <span className={'font-semibold'}>{subCategory.title}</span>
                 <span className="text-sm">({subCategory.blogCount})</span>
               </Link>
             </li>

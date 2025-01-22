@@ -12,7 +12,7 @@ interface IProps {
 const BlogCard = ({ blog }: { blog: NotionBlog }) => {
   return (
     <div className="relative w-full flex items-center justify-center group">
-      <div className="shadow-card rounded-[10px] overflow-hidden bg-white w-[600px] lg:w-full relative">
+      <div className="shadow-card rounded-[10px] overflow-hidden bg-white w-[90%] lg:w-full relative">
         {/* 이미지 섹션 */}
         <div className="relative w-full h-[200px]">
           <Image

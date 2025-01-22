@@ -35,7 +35,7 @@ export interface Cover {
   file: File;
 }
 
-interface File {
+export interface File {
   url: string;
   expiry_time: string;
 }

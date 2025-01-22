@@ -11,7 +11,7 @@ const BuggerButton = () => {
   return (
     <button
       onClick={updateCategoryNavigation}
-      className={'p-2 border border-[var(--border-color)]'}
+      className={'p-2 border border-[var(--fg)]'}
     >
       <SlMenu size={25} />
     </button>

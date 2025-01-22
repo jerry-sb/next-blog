@@ -11,6 +11,9 @@ const config: Config = {
       boxShadow: {
         card: 'var(--card-shadow)',
       },
+      spacing: {
+        'negative-header': 'calc(-1 * var(--header-height))',
+      },
       colors: {
         bg: 'var(--bg)',
         fg: 'var(--fg)',
@@ -19,7 +22,7 @@ const config: Config = {
       animation: {
         spinner: 'spin 1s ease-in-out infinite',
         themeSpinner: 'theme-spin 0.4s ease-out',
-        zigzag: 'zigzag 0.8s infinite linear',
+        opacityTransX: 'opacity-trans-x 0.7s ease-in-out',
       },
       keyframes: {
         spin: {
@@ -30,9 +33,9 @@ const config: Config = {
           '0%': { transform: 'rotate(90deg)', opacity: '0.5' },
           '100%': { transform: 'rotate(0deg)', opacity: '1' },
         },
-        zigzag: {
-          '0%': { backgroundPosition: '0 0, 12.5% 100%' },
-          '100%': { backgroundPosition: '25% 0, 37.5% 100%' },
+        'opacity-trans-x': {
+          '0%': { opacity: '0', transform: 'translateX(-8%)' },
+          '100%': { opacity: '1', transform: 'translateX(0)' },
         },
       },
     },

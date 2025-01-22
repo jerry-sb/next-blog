@@ -8,14 +8,14 @@ import {
 export async function generateStaticParams() {
   const subCategories = await getSubcategories();
   return subCategories.results.map((item) => ({
-    id: item.properties.Title.title[0].text.content,
+    id: item.id,
   }));
 }
 
 export default async function CategoryPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
   let categoryTitle: string = '';
@@ -41,7 +41,11 @@ export default async function CategoryPage({
   }
 
   return (
-    <div className={'flex flex-col items-center justify-center my-20'}>
+    <div
+      className={
+        'flex flex-col items-center justify-center my-20 animate-opacityTransX'
+      }
+    >
       <h1 className={'head-text1 italic underline'}>{categoryTitle}</h1>
       <BlogList blogList={blogList} />
     </div>
