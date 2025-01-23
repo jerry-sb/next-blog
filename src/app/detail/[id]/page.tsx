@@ -1,6 +1,7 @@
 import {
   getBlogDetail,
   getBlogPreviewDetail,
+  getBlogs,
 } from '@/app/api/notion/database/getDatabase';
 import Image from 'next/image';
 import * as React from 'react';
@@ -8,6 +9,34 @@ import BlogDetailNavigation from '@/app/components/navigation/BlogDetailNavigati
 import BlockList from '@/app/components/BlockList';
 import { StructureBlock } from '@/types/notion.model';
 import getBlurImg from '@/lib/blur';
+
+export async function generateStaticParams() {
+  const blogs = await getBlogs();
+  return blogs.results.map((item) => ({
+    id: item.id,
+  }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  const blogPreview = await getBlogPreviewDetail(id);
+  const { Title } = blogPreview.properties;
+
+  return {
+    title: `${Title.title[0].plain_text} | SB Notes`,
+    openGraph: {
+      title: `${Title.title[0].plain_text} | SB Notes`,
+      description: '안녕하세요. 웹 프론트엔드 개발자 심명보입니다.',
+      images: [{ url: '/og-image.png' }],
+      locale: 'kr_KR',
+      type: 'website',
+    },
+  };
+}
 
 export default async function BlogDetailPage({
   params,

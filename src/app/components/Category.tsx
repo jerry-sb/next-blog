@@ -66,7 +66,7 @@ const Category = ({
       <Spacer d={'vertical'} size={10} />
       <ul
         className={clsx(
-          'flex flex-col gap-2 transition-height duration-300 ease-in-out',
+          'flex flex-col gap-2 overflow-hidden transition-height duration-300 ease-in-out',
           {
             'h-0 overflow-hidden': !categoryActive,
           }

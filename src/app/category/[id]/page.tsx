@@ -3,6 +3,7 @@ import { NotionBlogList } from '@/types/notion.model';
 import {
   getBlogsBySubcategoryId,
   getSubcategories,
+  getSubcategoryDetail,
 } from '@/app/api/notion/database/getDatabase';
 
 export async function generateStaticParams() {
@@ -10,6 +11,27 @@ export async function generateStaticParams() {
   return subCategories.results.map((item) => ({
     id: item.id,
   }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  const subCategoryInfo = await getSubcategoryDetail(id);
+  const { Title } = subCategoryInfo.properties;
+
+  return {
+    title: `${Title.title[0].plain_text} | SB Notes`,
+    openGraph: {
+      title: `${Title.title[0].plain_text} | SB Notes`,
+      description: '안녕하세요. 웹 프론트엔드 개발자 심명보입니다.',
+      images: [{ url: '/og-image.png' }],
+      locale: 'kr_KR',
+      type: 'website',
+    },
+  };
 }
 
 export default async function CategoryPage({

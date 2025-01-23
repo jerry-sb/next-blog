@@ -25,6 +25,7 @@ export class Notion {
       const response = await notion.databases.query({
         database_id: this.#database,
         ...props,
+        page_size: 200,
       });
       return response;
     } catch (error) {

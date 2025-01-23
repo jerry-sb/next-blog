@@ -85,7 +85,9 @@ export const getSubcategoryDetail = async (subcategoryId: string) => {
   const notion = Notion.getInstance(
     `${process.env.NEXT_PUBLIC_NOTION_SUBCATEGORY_DATABASE}`
   );
-  return await notion.getPageContent(subcategoryId);
+  return (await notion.getPage(
+    subcategoryId
+  )) as unknown as Page<SubCategoryProperty>;
 };
 
 export const getBlogPreviewDetail = async (blogId: string) => {
