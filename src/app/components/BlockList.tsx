@@ -81,7 +81,7 @@ const Block = ({ block }: { block: NotionBlock }) => {
     const captionText = captions.map((text) => {
       if (text.plain_text.includes('TYPE2')) {
         imageType = 'TYPE2';
-        return text.plain_text.replace('TYPE2', '');
+        return text.plain_text.replace(imageType, '');
       }
       return text.plain_text;
     });
