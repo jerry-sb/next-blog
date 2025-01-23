@@ -7,12 +7,14 @@ const RootHeader = () => {
   return (
     <header
       className={
-        'bg-[var(--layout-bg)] flex justify-between items-center px-4  fixed top-0 h-[var(--header-height)] z-20 w-full border-b-2 border-b-[var(--border-color)]'
+        'bg-[var(--layout-bg)] flex justify-between items-center px-4 fixed top-0 h-[var(--header-height)] z-20 w-full border-b-2 border-b-[var(--border-color)]'
       }
     >
       <div className={'flex flex-grow'}>
         <Link href={'/'}>
-          <h1 className={'font-bold text-2xl italic'}>SB Notes.</h1>
+          <h1 className={'font-bold text-2xl italic hover:underline'}>
+            SB Notes.
+          </h1>
         </Link>
       </div>
       <div className={'flex flex-grow items-center justify-end lg:hidden'}>
@@ -20,11 +22,16 @@ const RootHeader = () => {
       </div>
       <div
         className={
-          'flex flex-grow justify-end items-center gap-4 sm:gap-7 hidden lg:flex'
+          'hidden lg:flex flex-grow justify-end items-center gap-4 sm:gap-7'
         }
       >
-        <Link href={'/'}>
-          <p className={'font-bold italic text-lg'}>About me.</p>
+        <Link className={'relative'} href={'/'}>
+          <span
+            className={'absolute text-xs top-[-10px] left-[-15px] font-bold'}
+          >
+            준비중...
+          </span>
+          <p className={'font-bold italic text-lg line-through'}>About me.</p>
         </Link>
         <ThemeToggleButton />
       </div>

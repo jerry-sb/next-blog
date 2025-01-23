@@ -5,8 +5,9 @@ import {
 import Image from 'next/image';
 import * as React from 'react';
 import BlogDetailNavigation from '@/app/components/navigation/BlogDetailNavigation';
-import { NotionBlock, NotionBlockResponse } from '@/types/notion.block';
 import BlockList from '@/app/components/BlockList';
+import { StructureBlock } from '@/types/notion.model';
+import getBlurImg from '@/lib/blur';
 
 export default async function BlogDetailPage({
   params,
@@ -26,33 +27,27 @@ export default async function BlogDetailPage({
     }
   });
 
-  const structureBlocks: {
-    title?: NotionBlock;
-    children: NotionBlockResponse;
-  }[] = notionBlocks.reduce(
-    (pv, block) => {
-      if (
-        block.type === 'heading_3' ||
-        block.type === 'heading_1' ||
-        block.type === 'heading_2'
-      ) {
-        // 새로운 헤더가 등장하면 새로운 섹션을 추가
-        pv.push({ title: block, children: [] });
-        return pv;
-      }
-
-      if (pv.length > 0) {
-        pv[pv.length - 1].children.push(block);
-      }
-
-      if (pv.length === 0) {
-        pv.push({ children: [block] });
-      }
-
+  const structureBlocks: StructureBlock[] = notionBlocks.reduce((pv, block) => {
+    if (
+      block.type === 'heading_3' ||
+      block.type === 'heading_1' ||
+      block.type === 'heading_2'
+    ) {
+      // 새로운 헤더가 등장하면 새로운 섹션을 추가
+      pv.push({ type: 'heading', title: block, children: [] });
       return pv;
-    },
-    [] as { title?: NotionBlock; children: NotionBlockResponse }[]
-  );
+    }
+
+    if (pv.length > 0) {
+      pv[pv.length - 1].children.push(block);
+    }
+
+    if (pv.length === 0 && block.type === 'callout') {
+      pv.push({ type: 'callout', children: [block] });
+    }
+
+    return pv;
+  }, [] as StructureBlock[]);
 
   const title =
     (icon ? `${icon.emoji} ` : '') + properties.Title.title[0].plain_text;
@@ -79,13 +74,15 @@ export default async function BlogDetailPage({
   );
 }
 
-const PagePreview = ({
+const PagePreview = async ({
   title,
   coverImage,
 }: {
   title: string;
   coverImage: string;
 }) => {
+  const blurPreview = await getBlurImg(coverImage);
+
   return (
     <header>
       <h1 className={'head-text2 lg:head-text1 head-color'}>{title}</h1>
@@ -97,6 +94,7 @@ const PagePreview = ({
           fill
           sizes="(max-width: 1024px) 100vw, 80vw"
           priority
+          blurDataURL={blurPreview}
         />
       </div>
     </header>

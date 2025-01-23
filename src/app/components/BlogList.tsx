@@ -4,12 +4,13 @@ import Image from 'next/image';
 import { formatDate } from '@/lib/util';
 import { IoArrowForward } from 'react-icons/io5';
 import Link from 'next/link';
+import getBlurImg from '@/lib/blur';
 
 interface IProps {
   blogList: NotionBlogList;
 }
 
-const BlogCard = ({ blog }: { blog: NotionBlog }) => {
+const BlogCard = ({ blog }: { blog: NotionBlog & { blurDataUrl: string } }) => {
   return (
     <div className="relative w-full flex items-center justify-center group">
       <div className="shadow-card rounded-[10px] overflow-hidden bg-white w-[90%] lg:w-full relative">
@@ -22,6 +23,7 @@ const BlogCard = ({ blog }: { blog: NotionBlog }) => {
             fill
             sizes="(max-width: 1024px) 100vw, 80vw"
             priority
+            blurDataURL={blog.blurDataUrl}
           />
         </div>
 
@@ -48,11 +50,21 @@ const BlogCard = ({ blog }: { blog: NotionBlog }) => {
   );
 };
 
-const BlogList = ({ blogList }: IProps) => {
+const BlogList = async ({ blogList }: IProps) => {
+  const blurDataMap = await Promise.all(
+    blogList.map(async (blog) => {
+      if (!blog.coverImage) return '';
+      return (await getBlurImg(blog.coverImage)) || '';
+    })
+  );
+
   return (
-    <section className="grid grid-flow-row grid-cols-1 lg:grid-cols-2 w-full lg:w-[800px] xl:w-[1000px] gap-12 lg:gap-5 my-24">
-      {blogList.map((blog) => (
-        <BlogCard blog={blog} key={blog.id} />
+    <section className="grid grid-flow-row grid-cols-1 md:grid-cols-2 w-full lg:w-[800px] xl:w-[1000px] gap-12 lg:gap-5 my-24">
+      {blogList.map((blog, index) => (
+        <BlogCard
+          blog={{ ...blog, blurDataUrl: blurDataMap[index] }}
+          key={blog.id}
+        />
       ))}
     </section>
   );

@@ -28,7 +28,6 @@ const BlogDetailNavigation = ({ blocks }: { blocks: NotionBlockResponse }) => {
     );
 
     const targets = document.querySelectorAll('[data-head-id]');
-    console.log(targets);
     targets.forEach((target) => observer.observe(target));
 
     return () => {
@@ -121,3 +120,9 @@ const BlogDetailNavigation = ({ blocks }: { blocks: NotionBlockResponse }) => {
 };
 
 export default BlogDetailNavigation;
+
+// #f7be68 14
+// #009ceb 10
+
+// #f0bb6c 14
+// #079ae3 10

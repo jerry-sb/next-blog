@@ -8,6 +8,8 @@ import {
   getSubcategories,
 } from '@/app/api/notion/database/getDatabase';
 import Category from '@/app/components/Category';
+import Link from 'next/link';
+import ThemeToggleButton from '@/app/components/button/ThemeToggleButton';
 
 const CategoryNavigation = async () => {
   const [categories, subCategories] = await Promise.all([
@@ -40,15 +42,28 @@ const CategoryNavigation = async () => {
   }
 
   return (
-    <ul className={'flex flex-col gap-3 w-full h-full p-4'}>
-      {categoryList.map((category) => (
-        <Category
-          key={category.id}
-          category={category}
-          subCategoryModel={subCategoryModel}
-        />
-      ))}
-    </ul>
+    <div className={'flex flex-col w-full h-full'}>
+      <ul className={'category-nav'}>
+        {categoryList.map((category) => (
+          <Category
+            key={category.id}
+            category={category}
+            subCategoryModel={subCategoryModel}
+          />
+        ))}
+      </ul>
+      <ul className={'etc-nav'}>
+        <Link className={'relative'} href={'/'}>
+          <span
+            className={'absolute text-xs top-[-10px] left-[-15px] font-bold'}
+          >
+            준비중...
+          </span>
+          <p className={'font-bold italic text-lg line-through'}>About me.</p>
+        </Link>
+        <ThemeToggleButton />
+      </ul>
+    </div>
   );
 };
 

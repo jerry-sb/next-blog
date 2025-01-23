@@ -12,13 +12,13 @@ export default function ThemeToggleButton() {
   return (
     <button className="flex self-end" onClick={handleThemeChange}>
       <TbMoonFilled
-        size={30}
+        size={32}
         className={`cursor-pointer themeSpinner ${
           resolvedTheme !== 'dark' ? 'visible animate-themeSpinner' : 'hidden'
         }`}
       />
       <TbSunFilled
-        size={30}
+        size={32}
         className={`cursor-pointer themeSpinner ${
           resolvedTheme === 'dark' ? 'visible animate-themeSpinner' : 'hidden'
         }`}

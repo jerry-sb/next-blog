@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { NotionBlock, NotionBlockResponse } from '@/types/notion.block';
+import { NotionBlock } from '@/types/notion.block';
 import { useCallback } from 'react';
 import { Annotations } from '@/types/notion.database';
 import clsx from 'clsx';
@@ -7,6 +7,8 @@ import Spacer from '@/app/components/common/Spacer';
 import { IoDocumentTextOutline } from 'react-icons/io5';
 import Image from 'next/image';
 import CodeWrapper from '@/app/components/CodeWrapper';
+import { StructureBlock } from '@/types/notion.model';
+import { DiCodeigniter } from 'react-icons/di';
 
 const Block = ({ block }: { block: NotionBlock }) => {
   const getTextClass = useCallback((annotations: Annotations) => {
@@ -87,7 +89,7 @@ const Block = ({ block }: { block: NotionBlock }) => {
     return (
       <div className="mb-10">
         <div className="bg-[var(--layout-bg)] flex items-center p-6 mb-3 rounded-[10px]">
-          <IoDocumentTextOutline className="min-w-[40px]" size={30} />
+          <IoDocumentTextOutline className="min-w-[60px]" size={30} />
           <div className="grow px-3">
             {captionText.map((text, index) => (
               <span key={index} className="head-text5-normal mb-8">
@@ -108,7 +110,6 @@ const Block = ({ block }: { block: NotionBlock }) => {
             alt="image"
             fill
             sizes="(max-width: 1024px) 100vw, 80vw"
-            priority
           />
         </div>
       </div>
@@ -119,6 +120,20 @@ const Block = ({ block }: { block: NotionBlock }) => {
     return <hr className="my-10 border border-[var(--layout-bg)]" />;
   }
 
+  if (block.type === 'callout') {
+    const texts = block.callout.rich_text;
+
+    return (
+      <div className="mb-2">
+        {texts.map((text, index) => (
+          <span key={`p${index}`} className={getTextClass(text.annotations)}>
+            {text.plain_text}
+          </span>
+        ))}
+      </div>
+    );
+  }
+
   if (block.type === 'code') {
     const captions = block.code.caption;
     const { plain_text } = block.code.rich_text[0];
@@ -126,7 +141,7 @@ const Block = ({ block }: { block: NotionBlock }) => {
     return (
       <div className="mb-10">
         <div className="bg-[var(--layout-bg)] flex items-center p-6 mb-3 rounded-[10px]">
-          <IoDocumentTextOutline className="min-w-[40px]" size={30} />
+          <IoDocumentTextOutline className="min-w-[60px]" size={30} />
           <div className="grow px-3">
             {captions.map((text, index) => (
               <span key={index} className="head-text5-normal mb-8">
@@ -146,23 +161,45 @@ const Block = ({ block }: { block: NotionBlock }) => {
 const BlockList = ({
   structureBlock,
 }: {
-  structureBlock: { title?: NotionBlock; children: NotionBlockResponse }[];
+  structureBlock: StructureBlock[];
 }) => {
   return (
     <>
       {structureBlock.map((block, index) => (
         <section
-          className="relative"
+          className={clsx('relative', {
+            'bg-[var(--secondary-color)] flex items-center p-6 mb-10  rounded-[10px] ':
+              block.type === 'callout',
+          })}
           {...(block.title ? { 'data-head-id': block.title.id } : {})}
           key={`section${index}`}
         >
-          {block.title && (
-            <div id={block.title.id} className="relative top-negative-header" />
+          {block.title && block.type === 'heading' && (
+            <>
+              <div
+                id={block.title.id}
+                className="relative top-negative-header"
+              />
+              <Block key="title" block={block.title} />
+              {block.children.map((block, index) => (
+                <Block key={`children${index}`} block={block} />
+              ))}
+            </>
           )}
-          {block.title && <Block key="title" block={block.title} />}
-          {block.children.map((block, index) => (
-            <Block key={`children${index}`} block={block} />
-          ))}
+
+          {block.type === 'callout' && (
+            <>
+              <DiCodeigniter
+                className="min-w-[60px] bg-transparent"
+                size={30}
+              />
+              <div className={'flex flex-col grow px-3 bg-transparent'}>
+                {block.children.map((block, index) => (
+                  <Block key={`children${index}`} block={block} />
+                ))}
+              </div>
+            </>
+          )}
         </section>
       ))}
     </>

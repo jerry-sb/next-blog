@@ -1,3 +1,5 @@
+import { NotionBlock, NotionBlockResponse } from '@/types/notion.block';
+
 export type NotionCategory = {
   id: string;
   title: string;
@@ -18,3 +20,9 @@ export type NotionSubCategory = Omit<NotionCategory, 'subCategories'>;
 export type NotionSubcategoryModel = Record<string, NotionSubCategory>;
 export type NotionBlogModel = Record<string, NotionBlog>;
 export type NotionBlogList = NotionBlog[];
+
+export type StructureBlock = {
+  type: 'heading' | 'callout';
+  title?: NotionBlock;
+  children: NotionBlockResponse;
+};

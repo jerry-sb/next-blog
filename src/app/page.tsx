@@ -1,9 +1,33 @@
-export default function Home() {
+import { getBlogs } from '@/app/api/notion/database/getDatabase';
+import { NotionBlogList } from '@/types/notion.model';
+import BlogList from '@/app/components/BlogList';
+
+export default async function Home() {
+  const blogs = await getBlogs();
+  const blogList: NotionBlogList = [];
+
+  if (blogs?.results && blogs.results.length > 0) {
+    blogs.results.forEach((blog) => {
+      const { cover, properties, id } = blog;
+      const { Title, InsertDate } = properties;
+
+      blogList.push({
+        id,
+        title: Title.title[0].text.content,
+        coverImage: cover !== null ? cover.file.url : undefined,
+        insertDate: InsertDate.date?.start ?? '',
+      });
+    });
+  }
+
   return (
-    <main className="bg-bg flex flex-col items-start min-h-screen p-8 sm:p-24">
-      <h1 className="text-heading text-5xl font-bold">
-        This is asd sa heading
-      </h1>
-    </main>
+    <div
+      className={
+        'flex flex-col items-center justify-center my-20 animate-opacityTransX'
+      }
+    >
+      <h1 className={'head-text1 italic underline'}>All Posts</h1>
+      <BlogList blogList={blogList} />
+    </div>
   );
 }

@@ -33,6 +33,7 @@
 
         --headingcolor: #657220;
         --primary-color: #d9f400;
+        --secondary-color: rgba(0, 156, 235, 0.10);
 
         --header-height: 4rem;
         --side-nav-width: 15rem;
@@ -49,6 +50,7 @@
 
         --headingcolor: #b44d1e;
         --primary-color: #f26828;
+        --secondary-color: #079ae31a;
         --card-shadow: 0px 0px 20px rgba(255, 255, 255, 0.4);
     }
 
@@ -148,6 +150,23 @@
 
     .primary-box {
         @apply border border-[var(--border-color)] bg-[var(--primary-color)];
+    }
+
+    .page-title {
+        @apply relative head-text1 italic underline;
+    }
+
+    .category-nav {
+        @apply flex flex-col gap-3  p-4;
+        /*@apply lg:w-full sm:w-[50%];*/
+        @apply h-[80%] lg:h-full;
+        /*@apply border-b-2 border-[var(--border-color)] sm:border-b-0 sm:border-r-2 lg:border-r-0;*/
+    }
+
+    .etc-nav {
+        @apply flex lg:hidden flex-col gap-3 p-10 justify-end items-end;
+        /*@apply lg:w-full sm:w-[50%];*/
+        @apply h-[20%] lg:h-full;
     }
 }
 

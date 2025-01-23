@@ -46,7 +46,7 @@ export default async function CategoryPage({
         'flex flex-col items-center justify-center my-20 animate-opacityTransX'
       }
     >
-      <h1 className={'head-text1 italic underline'}>{categoryTitle}</h1>
+      <h1 className={'page-title'}>{categoryTitle}</h1>
       <BlogList blogList={blogList} />
     </div>
   );

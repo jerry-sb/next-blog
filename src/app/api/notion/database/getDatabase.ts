@@ -29,6 +29,23 @@ export const getSubcategories = async (): Promise<
   )) as unknown as NotionDatabaseResponse<SubCategoryProperty>;
 };
 
+export const getBlogs = async (): Promise<
+  NotionDatabaseResponse<BlogProperty>
+> => {
+  const notion = Notion.getInstance(
+    `${process.env.NEXT_PUBLIC_NOTION_BLOG_DATABASE}`
+  );
+
+  return (await notion.getDatabase({
+    filter: {
+      property: 'Status',
+      status: {
+        equals: '완료',
+      },
+    },
+  })) as unknown as NotionDatabaseResponse<BlogProperty>;
+};
+
 export const getBlogsBySubcategoryId = async (
   subcategory_id: string
 ): Promise<NotionDatabaseResponse<BlogProperty>> => {
@@ -37,10 +54,20 @@ export const getBlogsBySubcategoryId = async (
   );
   return (await notion.getDatabase({
     filter: {
-      property: 'Subcategory',
-      relation: {
-        contains: subcategory_id,
-      },
+      and: [
+        {
+          property: 'Subcategory',
+          relation: {
+            contains: subcategory_id,
+          },
+        },
+        {
+          property: 'Status',
+          status: {
+            equals: '완료',
+          },
+        },
+      ],
     },
   })) as unknown as NotionDatabaseResponse<BlogProperty>;
 };
