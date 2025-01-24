@@ -11,7 +11,7 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'candy-icebreaker-bbb.notion.site',
+        hostname: 'adjoining-ostrich-c77.notion.site',
         pathname: '/**',
       },
     ],

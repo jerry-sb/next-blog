@@ -35,7 +35,7 @@ export async function generateMetadata({
     openGraph: {
       title: `${Title.title[0].plain_text} | SB Notes`,
       description: '안녕하세요. 웹 프론트엔드 개발자 심명보입니다.',
-      images: [{ url: imageUrl ?? '/og-image.png' }],
+      images: [{ url: imageUrl ?? '' }],
       locale: 'kr_KR',
       type: 'website',
     },

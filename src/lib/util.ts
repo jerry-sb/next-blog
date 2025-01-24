@@ -15,5 +15,5 @@ export const getPublishedImageUrl = (
   projectId: string
 ) => {
   const encodedUrl = encodeURIComponent(notionCoverUrl.split('?')[0]);
-  return `https://candy-icebreaker-bbb.notion.site/image/${encodedUrl}?table=block&id=${projectId}&cache=v2`;
+  return `https://adjoining-ostrich-c77.notion.site/image/${encodedUrl}?table=block&id=${projectId}&cache=v2`;
 };
