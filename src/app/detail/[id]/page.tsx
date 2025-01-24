@@ -26,13 +26,16 @@ export async function generateMetadata({
   const { id } = await params;
   const blogPreview = await getBlogPreviewDetail(id);
   const { Title } = blogPreview.properties;
+  const imageUrl = blogPreview.cover?.file.url
+    ? getPublishedImageUrl(blogPreview.cover.file.url, id)
+    : undefined;
 
   return {
     title: `${Title.title[0].plain_text} | SB Notes`,
     openGraph: {
       title: `${Title.title[0].plain_text} | SB Notes`,
       description: '안녕하세요. 웹 프론트엔드 개발자 심명보입니다.',
-      images: [{ url: 'https://sbnotes.vercel.app/og-image.png' }],
+      images: [{ url: imageUrl ?? '/og-image.png' }],
       locale: 'kr_KR',
       type: 'website',
     },
