@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'SB Notes | 심명보 기술 블로그',
     description: '안녕하세요. 웹 프론트엔드 개발자 심명보입니다.',
-    images: [{ url: '/og-image.png' }],
+    images: [{ url: 'https://sbnotes.vercel.app/og-image.png' }],
     locale: 'kr_KR',
     type: 'website',
   },
