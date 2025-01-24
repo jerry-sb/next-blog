@@ -9,3 +9,11 @@ export function formatDate(dateString: string): string {
 
   return date.toLocaleDateString('en-US', options);
 }
+
+export const getPublishedImageUrl = (
+  notionCoverUrl: string,
+  projectId: string
+) => {
+  const encodedUrl = encodeURIComponent(notionCoverUrl.split('?')[0]);
+  return `https://candy-icebreaker-bbb.notion.site/image/${encodedUrl}?table=block&id=${projectId}&cache=v2`;
+};

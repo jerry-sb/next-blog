@@ -9,6 +9,7 @@ import BlogDetailNavigation from '@/app/components/navigation/BlogDetailNavigati
 import BlockList from '@/app/components/BlockList';
 import { StructureBlock } from '@/types/notion.model';
 import getBlurImg from '@/lib/blur';
+import { getPublishedImageUrl } from '@/lib/util';
 
 export async function generateStaticParams() {
   const blogs = await getBlogs();
@@ -44,7 +45,12 @@ export default async function BlogDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const { properties, icon, cover } = await getBlogPreviewDetail(id);
+  const {
+    properties,
+    icon,
+    cover,
+    id: pageId,
+  } = await getBlogPreviewDetail(id);
   const notionBlocks = await getBlogDetail(id);
   const headingBlocks = notionBlocks.filter((block) => {
     if (
@@ -80,7 +86,6 @@ export default async function BlogDetailPage({
 
   const title =
     (icon ? `${icon.emoji} ` : '') + properties.Title.title[0].plain_text;
-  const coverImage = cover?.file.url ?? '';
 
   return (
     <div className="flex w-full mt-10 justify-center mx-auto relative">
@@ -90,8 +95,9 @@ export default async function BlogDetailPage({
         }
       >
         <PagePreview
+          id={pageId}
           title={title}
-          coverImage={coverImage}
+          coverImage={cover?.file.url}
           // insertDate={formatDate(properties.InsertDate.date.start)}
         />
         <BlockList structureBlock={structureBlocks} />
@@ -104,28 +110,30 @@ export default async function BlogDetailPage({
 }
 
 const PagePreview = async ({
+  id,
   title,
   coverImage,
 }: {
+  id: string;
   title: string;
-  coverImage: string;
+  coverImage?: string;
 }) => {
-  const blurPreview = await getBlurImg(coverImage);
-
   return (
     <header>
       <h1 className={'head-text2 lg:head-text1 head-color'}>{title}</h1>
-      <div className="relative w-full h-[450px] rounded-[15px] overflow-hidden my-14">
-        <Image
-          className="object-cover"
-          src={coverImage}
-          alt={title}
-          fill
-          sizes="(max-width: 1024px) 100vw, 80vw"
-          priority
-          blurDataURL={blurPreview}
-        />
-      </div>
+      {coverImage && (
+        <div className="relative w-full h-[450px] rounded-[15px] overflow-hidden my-14">
+          <Image
+            className="object-cover"
+            src={getPublishedImageUrl(coverImage, id)}
+            alt={title}
+            fill
+            sizes="(max-width: 1024px) 100vw, 80vw"
+            priority
+            blurDataURL={await getBlurImg(coverImage)}
+          />
+        </div>
+      )}
     </header>
   );
 };

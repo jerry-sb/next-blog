@@ -9,6 +9,7 @@ import Image from 'next/image';
 import CodeWrapper from '@/app/components/CodeWrapper';
 import { StructureBlock } from '@/types/notion.model';
 import { DiCodeigniter } from 'react-icons/di';
+import { getPublishedImageUrl } from '@/lib/util';
 
 const Block = ({ block }: { block: NotionBlock }) => {
   const getTextClass = useCallback((annotations: Annotations) => {
@@ -77,6 +78,7 @@ const Block = ({ block }: { block: NotionBlock }) => {
     let imageType = 'TYPE1';
     const captions = block.image.caption;
     const { url } = block.image.file;
+    const blockImage = getPublishedImageUrl(url, block.id);
 
     const captionText = captions.map((text) => {
       if (text.plain_text.includes('TYPE2')) {
@@ -105,7 +107,7 @@ const Block = ({ block }: { block: NotionBlock }) => {
         >
           <Image
             className="object-contain"
-            src={url}
+            src={blockImage}
             alt="image"
             fill
             sizes="(max-width: 1024px) 100vw, 80vw"

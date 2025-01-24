@@ -15,7 +15,10 @@ export type NotionActions = {
 export type NotionStore = NotionState & NotionActions;
 
 export const defaultInitState: NotionState = {
-  categoryNavigation: 'visible',
+  categoryNavigation:
+    typeof window !== 'undefined' && window.innerWidth < 1025
+      ? 'hidden'
+      : 'visible',
   categoryActive: {},
 };
 

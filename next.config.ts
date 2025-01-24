@@ -7,6 +7,12 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'prod-files-secure.s3.us-west-2.amazonaws.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'candy-icebreaker-bbb.notion.site',
+        pathname: '/**',
       },
     ],
     minimumCacheTTL: 60,
