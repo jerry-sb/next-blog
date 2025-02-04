@@ -78,7 +78,7 @@ const Block = async ({ block }: { block: NotionBlock }) => {
 
     if (tableData) {
       return (
-        <div className="overflow-x-auto w-full">
+        <div className="overflow-x-auto w-full custom-scrollbar">
           <table>
             <thead>
               <tr>
