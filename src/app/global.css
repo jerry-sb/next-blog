@@ -201,8 +201,12 @@
     }
 
     .custom-scrollbar {
-        @apply [&::-webkit-scrollbar]:w-4 overflow-x-auto;
-        scrollbar-gutter: stable both-edges; /* ✅ 스크롤바 공간 항상 유지 */
+        @apply [&::-webkit-scrollbar]:w-4;
+        overflow-x: scroll !important;
+        overflow-y: auto;
+        scrollbar-gutter: stable both-edges;
+        -webkit-overflow-scrolling: touch;
+        touch-action: manipulation;
     }
 
     .custom-scrollbar::-webkit-scrollbar-track {
