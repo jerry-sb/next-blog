@@ -1,4 +1,4 @@
-import { Page, Text } from '@/types/notion.database';
+import { Text } from '@/types/notion.database';
 import { BlockBase } from '@/types/notion.block';
 
 export interface NotionTableResponse {
