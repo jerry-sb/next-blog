@@ -113,6 +113,15 @@ export interface Heading3 extends BlockBase {
   };
 }
 
+export interface Table extends BlockBase {
+  type: 'table';
+  table: {
+    table_width: number;
+    has_column_header: boolean;
+    has_row_header: boolean;
+  };
+}
+
 export type NotionBlock =
   | Toggle
   | Paragraph
@@ -124,6 +133,7 @@ export type NotionBlock =
   | NumberedListItem
   | Divider
   | Heading3
-  | Code;
+  | Code
+  | Table;
 
 export type NotionBlockResponse = NotionBlock[];

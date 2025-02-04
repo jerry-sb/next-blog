@@ -6,6 +6,7 @@ import {
 } from '@/types/notion.page';
 import { Notion } from '@/lib/notion';
 import { NotionBlockResponse } from '@/types/notion.block';
+import { NotionTableResponse } from '@/types/notion.table';
 
 export const getCategories = async (): Promise<
   NotionDatabaseResponse<CategoryProperty>
@@ -13,9 +14,14 @@ export const getCategories = async (): Promise<
   const notion = Notion.getInstance(
     `${process.env.NEXT_PUBLIC_NOTION_CATEGORY_DATABASE}`
   );
-  return (await notion.getDatabase(
-    {}
-  )) as unknown as NotionDatabaseResponse<CategoryProperty>;
+  return (await notion.getDatabase({
+    sorts: [
+      {
+        property: 'Order',
+        direction: 'ascending',
+      },
+    ],
+  })) as unknown as NotionDatabaseResponse<CategoryProperty>;
 };
 
 export const getSubcategories = async (): Promise<
@@ -43,6 +49,12 @@ export const getBlogs = async (): Promise<
         equals: '완료',
       },
     },
+    sorts: [
+      {
+        property: 'InsertDate',
+        direction: 'descending',
+      },
+    ],
   })) as unknown as NotionDatabaseResponse<BlogProperty>;
 };
 
@@ -69,6 +81,12 @@ export const getBlogsBySubcategoryId = async (
         },
       ],
     },
+    sorts: [
+      {
+        property: 'InsertDate',
+        direction: 'descending',
+      },
+    ],
   })) as unknown as NotionDatabaseResponse<BlogProperty>;
 };
 
@@ -95,4 +113,40 @@ export const getBlogPreviewDetail = async (blogId: string) => {
     `${process.env.NEXT_PUBLIC_NOTION_BLOG_DATABASE}`
   );
   return (await notion.getPage(blogId)) as unknown as Page<BlogProperty>;
+};
+
+export const getTableBlock = async (
+  tableBlockId: string
+): Promise<{ header: string[]; columns: string[][] } | undefined> => {
+  const notion = Notion.getInstance(
+    `${process.env.NEXT_PUBLIC_NOTION_BLOG_DATABASE}`
+  );
+
+  const result = (await notion.getTableContent(
+    tableBlockId
+  )) as unknown as NotionTableResponse;
+
+  if (!result?.results || result?.results.length === 0) {
+    return undefined;
+  }
+
+  const transform: { header: string[]; columns: string[][] } = {
+    header: [],
+    columns: [],
+  };
+
+  result.results.forEach((row, rowIndex) => {
+    const nextArray: string[] = [];
+    row.table_row.cells.forEach((cell) => {
+      nextArray.push(cell[0].plain_text);
+    });
+
+    if (rowIndex === 0) {
+      transform.header = nextArray;
+    } else {
+      transform.columns.push(nextArray);
+    }
+  });
+
+  return transform;
 };

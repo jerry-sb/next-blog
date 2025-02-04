@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { NotionBlock } from '@/types/notion.block';
-import { useCallback } from 'react';
 import { Annotations } from '@/types/notion.database';
 import clsx from 'clsx';
 import Spacer from '@/app/components/common/Spacer';
@@ -10,18 +9,18 @@ import CodeWrapper from '@/app/components/CodeWrapper';
 import { StructureBlock } from '@/types/notion.model';
 import { DiCodeigniter } from 'react-icons/di';
 import { getPublishedImageUrl } from '@/lib/util';
+import { getTableBlock } from '@/app/api/notion/database/getDatabase';
 
-const Block = ({ block }: { block: NotionBlock }) => {
-  const getTextClass = useCallback((annotations: Annotations) => {
-    return clsx('head-text5-normal', {
-      'font-bold': annotations.bold,
-      italic: annotations.italic,
-      'line-through': annotations.strikethrough,
-      underline: annotations.underline,
-      'bg-gray-200 text-black': annotations.code,
-    });
-  }, []);
+const getTextClass = (annotations: Annotations) => {
+  return clsx('head-text5-normal', {
+    'font-bold': annotations.bold,
+    italic: annotations.italic,
+    'line-through': annotations.strikethrough,
+    underline: annotations.underline,
+  });
+};
 
+const Block = async ({ block }: { block: NotionBlock }) => {
   if (block.type === 'bulleted_list_item') {
     const texts = block.bulleted_list_item.rich_text;
     return (
@@ -57,35 +56,58 @@ const Block = ({ block }: { block: NotionBlock }) => {
     const texts = block.heading_1.rich_text;
     const headingText = texts.map((text) => text.plain_text).join(' ');
 
-    return <h1 className="head-text2 mb-8 head-color">{headingText}</h1>;
+    return <h1 className="head-text2 mb-6 head-color">{headingText}</h1>;
   }
 
   if (block.type === 'heading_2') {
     const texts = block.heading_2.rich_text;
     const headingText = texts.map((text) => text.plain_text).join(' ');
 
-    return <h2 className="head-text3 mb-8 head-color">{headingText}</h2>;
+    return <h2 className="head-text3 mb-4 head-color">{headingText}</h2>;
   }
 
   if (block.type === 'heading_3') {
     const texts = block.heading_3.rich_text;
     const headingText = texts.map((text) => text.plain_text).join(' ');
 
-    return <h3 className="head-text4 mb-8 head-color">{headingText}</h3>;
+    return <h3 className="head-text4 mb-2 head-color">{headingText}</h3>;
+  }
+
+  if (block.type === 'table') {
+    const tableData = await getTableBlock(block.id);
+
+    if (tableData) {
+      return (
+        <div className="overflow-x-auto w-full">
+          <table>
+            <thead>
+              <tr>
+                {tableData.header.map((item, index) => (
+                  <th key={`th${index}`}>{item}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {tableData.columns.map((row, rowIndex) => (
+                <tr key={`tr${rowIndex}`}>
+                  {row.map((cell, cellIndex) => (
+                    <td key={`td${rowIndex}-${cellIndex}`}>{cell}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      );
+    }
+
+    return <></>;
   }
 
   if (block.type === 'image') {
-    let imageType = 'TYPE1';
-    const captions = block.image.caption;
+    const captionText = block.image.caption;
     const { url } = block.image.file;
     const blockImage = getPublishedImageUrl(url, block.id);
-
-    const captionText = captions.map((text) => {
-      if (text.plain_text.includes('TYPE2')) {
-        imageType = 'TYPE2';
-      }
-      return text.plain_text.replace(imageType, '');
-    });
 
     return (
       <div className="mb-10">
@@ -94,24 +116,13 @@ const Block = ({ block }: { block: NotionBlock }) => {
           <div className="grow px-3">
             {captionText.map((text, index) => (
               <span key={index} className="head-text5-normal mb-8">
-                {text}
+                {text.plain_text}
               </span>
             ))}
           </div>
         </div>
-        <div
-          className={clsx('relative w-full p-5', {
-            'h-[400px]': imageType === 'TYPE2',
-            'h-[300px]': imageType === 'TYPE1',
-          })}
-        >
-          <Image
-            className="object-contain"
-            src={blockImage}
-            alt="image"
-            fill
-            sizes="(max-width: 1024px) 100vw, 80vw"
-          />
+        <div className={'relative w-full p-5 h-auto'}>
+          <Image src={blockImage} alt="image" width={800} height={600} />
         </div>
       </div>
     );

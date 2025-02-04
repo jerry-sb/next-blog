@@ -117,6 +117,24 @@
         #0000,#000 1deg calc(var(--a) - 1deg),#0000 var(--a));
         mask: 50% calc(-1*var(--b))/var(--_g) exclude,50%/var(--_g);
     }
+
+    table {
+        border-collapse: collapse;
+        border: 2px solid var(--border-color);
+        min-width: max-content;  /* 🔥 테이블이 줄어들지 않고 가로 스크롤 가능하게 */
+    }
+
+    th, td {
+        border: 1px solid var(--border-color);
+        padding: 10px 15px;
+        word-break: keep-all;  /* 🔥 단어가 자동으로 줄바꿈되지 않도록 */
+        white-space: nowrap;   /* 🔥 글자가 한 줄로 유지되도록 */
+    }
+
+    th {
+        background: var(--primary-color);
+    }
+
 }
 
 @layer components {
@@ -173,8 +191,8 @@
 @layer utilities {
     .content-dot {
         @apply inline-block w-[20px];
-        content: "•";
+        content: "✅ ";
         font-size: 20px;
-        color: var(--border-color);
+        margin-right: 10px;
     }
 }

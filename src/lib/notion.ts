@@ -54,4 +54,16 @@ export class Notion {
       throw new NotionFetchError(error as NotionError);
     }
   }
+
+  async getTableContent(tableBlockId: string) {
+    try {
+      const notion = new Client({ auth: this.#key });
+      const tableRows = await notion.blocks.children.list({
+        block_id: tableBlockId,
+      });
+      return tableRows; // 2D 배열 형태 반환
+    } catch (error) {
+      throw new NotionFetchError(error as NotionError);
+    }
+  }
 }

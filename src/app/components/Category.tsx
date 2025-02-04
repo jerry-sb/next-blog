@@ -3,7 +3,7 @@ import * as React from 'react';
 import { NotionCategory, NotionSubcategoryModel } from '@/types/notion.model';
 import { IoMdArrowDropdown } from 'react-icons/io';
 import Spacer from '@/app/components/common/Spacer';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
@@ -18,6 +18,22 @@ const Category = ({
 }) => {
   const { id } = useParams();
 
+  const [contentHeight, setContentHeight] = React.useState(0);
+  const categoryActive = useNotionStore((state) => state.categoryActive)[
+    category.id
+  ];
+
+  useEffect(() => {
+    if (categoryActive) {
+      const itemHeight = 48;
+      const gap = 8;
+      const itemCount = category.subCategories.length;
+      setContentHeight(itemCount * itemHeight + (itemCount - 1) * gap);
+    } else {
+      setContentHeight(0);
+    }
+  }, [categoryActive, category.subCategories.length]);
+
   const updateCategoryNavigation = useNotionStore(
     (state) => state.updateCategoryNavigation
   );
@@ -28,9 +44,6 @@ const Category = ({
     }
   };
 
-  const categoryActive = useNotionStore((state) => state.categoryActive)[
-    category.id
-  ];
   const updateCategoryActiveById = useNotionStore(
     (state) => state.updateCategoryActiveById
   );
@@ -38,13 +51,6 @@ const Category = ({
   const onCategoryClick = useCallback(() => {
     updateCategoryActiveById(category.id);
   }, [category.id]);
-
-  const calculateHeight = () => {
-    const itemHeight = 48;
-    const gap = 8;
-    const itemCount = category.subCategories.length;
-    return itemCount * itemHeight + (itemCount - 1) * gap;
-  };
 
   return (
     <li className={'px-2 py-1'}>
@@ -68,11 +74,11 @@ const Category = ({
         className={clsx(
           'flex flex-col gap-2 overflow-hidden transition-height duration-300 ease-in-out',
           {
-            'h-0 overflow-hidden': !categoryActive,
+            'max-h-0': !categoryActive,
           }
         )}
         style={{
-          height: categoryActive ? `${calculateHeight()}px` : '0px',
+          height: categoryActive ? `${contentHeight}px` : '0px',
         }}
       >
         {category.subCategories.map((subcategoryId) => {
