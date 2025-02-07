@@ -130,6 +130,7 @@
     }
 
     th, td {
+        min-width: 100px;
         border: 1px solid var(--border-color);
         padding: 10px 15px;
         word-break: keep-all;  /* 🔥 단어가 자동으로 줄바꿈되지 않도록 */

@@ -155,16 +155,18 @@ const Block = async ({ block }: { block: NotionBlock }) => {
 
     return (
       <div className="mb-10">
-        <div className="bg-[var(--layout-bg)] flex items-center p-6 mb-3 rounded-[10px]">
-          <IoDocumentTextOutline className="min-w-[60px]" size={30} />
-          <div className="grow px-3">
-            {captions.map((text, index) => (
-              <span key={index} className="head-text5-normal mb-8">
-                {text.plain_text}
-              </span>
-            ))}
+        {captions[0]?.plain_text && (
+          <div className="bg-[var(--layout-bg)] flex items-center p-6 mb-3 rounded-[10px]">
+            <IoDocumentTextOutline className="min-w-[60px]" size={30} />
+            <div className="grow px-3">
+              {captions.map((text, index) => (
+                <span key={index} className="head-text5-normal mb-8">
+                  {text.plain_text}
+                </span>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
         <CodeWrapper code={plain_text} />
       </div>
     );

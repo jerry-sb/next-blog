@@ -17,7 +17,7 @@ const BlogCard = ({
 }) => {
   return (
     <div className="relative w-full flex items-center justify-center group">
-      <div className="shadow-card rounded-[10px] overflow-hidden bg-white w-[90%] lg:w-full relative">
+      <div className="shadow-card rounded-[10px] overflow-hidden bg-white w-[90%] md:w-full relative">
         <div className="relative w-full h-[200px]">
           {blog.coverImage && blog.blurDataUrl && (
             <Image
@@ -75,7 +75,7 @@ const BlogList = async ({ blogList }: IProps) => {
   );
 
   return (
-    <section className="grid grid-flow-row grid-cols-1 md:grid-cols-2 w-full lg:w-[800px] xl:w-[1000px] gap-12 lg:gap-5 my-24">
+    <section className="grid grid-flow-row grid-cols-1 md:grid-cols-2 w-full lg:w-[800px] xl:w-[1000px] gap-8 my-24 px-5 xl:px-0">
       {enrichedBlogList.map((blog) => (
         <BlogCard blog={blog} key={blog.id} />
       ))}

@@ -138,7 +138,7 @@ export const getTableBlock = async (
   result.results.forEach((row, rowIndex) => {
     const nextArray: string[] = [];
     row.table_row.cells.forEach((cell) => {
-      nextArray.push(cell[0].plain_text);
+      nextArray.push(cell[0]?.plain_text || '');
     });
 
     if (rowIndex === 0) {

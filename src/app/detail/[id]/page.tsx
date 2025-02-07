@@ -76,12 +76,21 @@ export default async function BlogDetailPage({
       return pv;
     }
 
-    if (pv.length > 0) {
-      pv[pv.length - 1].children.push(block);
+    // 'callout'은 마지막 callout 섹션에 추가되거나 새로운 섹션으로 처리
+    if (block.type === 'callout') {
+      // 마지막 섹션이 callout이면 자식에 추가
+      if (pv.length > 0 && pv[pv.length - 1].type === 'callout') {
+        pv[pv.length - 1].children.push(block);
+      } else {
+        // 새로운 callout 섹션 추가
+        pv.push({ type: 'callout', children: [block] });
+      }
+      return pv;
     }
 
-    if (pv.length === 0 && block.type === 'callout') {
-      pv.push({ type: 'callout', children: [block] });
+    // 마지막 섹션의 children에 block 추가
+    if (pv.length > 0) {
+      pv[pv.length - 1].children.push(block);
     }
 
     return pv;
