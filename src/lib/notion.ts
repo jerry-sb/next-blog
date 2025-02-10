@@ -1,7 +1,11 @@
 import 'server-only';
 import { Client } from '@notionhq/client';
 import { NotionError, NotionFetchError } from '@/lib/error';
-import { QueryDatabaseParameters } from '@notionhq/client/build/src/api-endpoints';
+import {
+  BlockObjectResponse,
+  PartialBlockObjectResponse,
+  QueryDatabaseParameters,
+} from '@notionhq/client/build/src/api-endpoints';
 
 export class Notion {
   private static instances: Map<string, Notion> = new Map();
@@ -36,10 +40,21 @@ export class Notion {
   async getPageContent(pageId: string) {
     try {
       const notion = new Client({ auth: this.#key });
-      const response = await notion.blocks.children.list({
-        block_id: pageId,
-      });
-      return response.results;
+      let results: (PartialBlockObjectResponse | BlockObjectResponse)[] = [];
+      let cursor: string | null | undefined = undefined;
+
+      do {
+        const response = await notion.blocks.children.list({
+          block_id: pageId,
+          page_size: 100, // 최대 100개만 허용됨
+          start_cursor: cursor, // 다음 페이지 커서
+        });
+
+        results = [...results, ...response.results]; // 결과 누적
+        cursor = response.has_more ? response.next_cursor : undefined; // 다음 페이지 존재 여부 확인
+      } while (cursor); // 다음 페이지가 있는 동안 계속 요청
+
+      return results;
     } catch (error) {
       throw new NotionFetchError(error as NotionError);
     }
@@ -48,8 +63,7 @@ export class Notion {
   async getPage(pageId: string) {
     try {
       const notion = new Client({ auth: this.#key });
-      const response = await notion.pages.retrieve({ page_id: pageId });
-      return response;
+      return await notion.pages.retrieve({ page_id: pageId });
     } catch (error) {
       throw new NotionFetchError(error as NotionError);
     }
@@ -58,10 +72,9 @@ export class Notion {
   async getTableContent(tableBlockId: string) {
     try {
       const notion = new Client({ auth: this.#key });
-      const tableRows = await notion.blocks.children.list({
+      return await notion.blocks.children.list({
         block_id: tableBlockId,
       });
-      return tableRows; // 2D 배열 형태 반환
     } catch (error) {
       throw new NotionFetchError(error as NotionError);
     }
