@@ -17,9 +17,7 @@ export async function GET(
     const notion = Notion.getInstance(
       `${process.env.NEXT_PUBLIC_NOTION_BLOG_DATABASE}`
     );
-    const page = await notion.getPageContent(id);
-
-    return Response.json(page);
+    return Response.json(await notion.getPageContent(id));
   } catch (e) {
     console.error(e);
     if (e instanceof NotionFetchError) {
