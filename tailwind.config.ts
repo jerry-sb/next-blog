@@ -18,6 +18,7 @@ const config: Config = {
         bg: 'var(--bg)',
         fg: 'var(--fg)',
         heading: 'var(--headingcolor)',
+        primary: 'var(--primary-color)',
       },
       animation: {
         spinner: 'spin 1s ease-in-out infinite',

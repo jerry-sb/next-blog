@@ -35,13 +35,14 @@
         --primary-color: #d9f400;
         --secondary-color: rgba(0, 156, 235, 0.10);
 
+        --margin-header: calc(-1 * (var(--header-height) - var(--scroll-progress)));
+        --scroll-progress: 0.25rem;
         --header-height: 4rem;
         --side-nav-width: 15rem;
         --side-nav-height: 100%;
         --card-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
         --scrollbar-track: rgb(45 156 93);
         --scrollbar-thumb: rgb(45 156 93);
-
     }
 
     [data-theme="dark"] {
