@@ -14,7 +14,7 @@ export default async function Home() {
       blogList.push({
         id,
         title: Title.title[0].text.content,
-        coverImage: cover !== null ? cover.file.url : undefined,
+        coverImage: cover?.external ? cover.external.url : cover?.file.url,
         insertDate: InsertDate.date?.start ?? '',
       });
     });

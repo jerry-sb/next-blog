@@ -26,9 +26,10 @@ export async function generateMetadata({
   const { id } = await params;
   const blogPreview = await getBlogPreviewDetail(id);
   const { Title } = blogPreview.properties;
-  const imageUrl = blogPreview.cover?.file.url
-    ? getPublishedImageUrl(blogPreview.cover.file.url, id)
-    : undefined;
+  const image = blogPreview.cover?.external
+    ? blogPreview.cover?.external.url
+    : blogPreview.cover?.file.url;
+  const imageUrl = image ? getPublishedImageUrl(image, id) : undefined;
 
   return {
     title: `${Title.title[0].plain_text} | SB Notes`,
@@ -109,8 +110,7 @@ export default async function BlogDetailPage({
         <PagePreview
           id={pageId}
           title={title}
-          coverImage={cover?.file.url}
-          // insertDate={formatDate(properties.InsertDate.date.start)}
+          coverImage={cover?.external ? cover.external.url : cover?.file.url}
         />
         <BlockList structureBlock={structureBlocks} />
       </article>

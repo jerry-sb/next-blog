@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState } from 'react';
 import clsx from 'clsx';
 
 const BlogDetailNavigation = ({ blocks }: { blocks: NotionBlockResponse }) => {
+  console.log(JSON.stringify(blocks, null, 2));
   const [viewActiveIds, setViewActiveIds] = useState<string[]>([]);
   const [active, setActive] = useState<boolean[]>([]);
 
@@ -77,7 +78,9 @@ const BlogDetailNavigation = ({ blocks }: { blocks: NotionBlockResponse }) => {
                 )}
                 onClick={() => onClickHeading(block.id)}
               >
-                {block.heading_3.rich_text[0].plain_text}
+                {block.heading_3.rich_text.reduce((ac, cv) => {
+                  return ac + ' ' + cv.plain_text;
+                }, '')}
               </li>
             );
           }
@@ -94,7 +97,9 @@ const BlogDetailNavigation = ({ blocks }: { blocks: NotionBlockResponse }) => {
                 )}
                 onClick={() => onClickHeading(block.id)}
               >
-                {block.heading_2.rich_text[0].plain_text}
+                {block.heading_2.rich_text.reduce((ac, cv) => {
+                  return ac + ' ' + cv.plain_text;
+                }, '')}
               </li>
             );
           }
@@ -108,7 +113,9 @@ const BlogDetailNavigation = ({ blocks }: { blocks: NotionBlockResponse }) => {
                 })}
                 onClick={() => onClickHeading(block.id)}
               >
-                {block.heading_1.rich_text[0].plain_text}
+                {block.heading_1.rich_text.reduce((ac, cv) => {
+                  return ac + ' ' + cv.plain_text;
+                }, '')}
               </li>
             );
           }

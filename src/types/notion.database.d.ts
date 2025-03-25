@@ -33,6 +33,9 @@ export interface User {
 export interface Cover {
   type: string;
   file: File;
+  external?: {
+    url: string;
+  };
 }
 
 export interface File {

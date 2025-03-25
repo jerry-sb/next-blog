@@ -71,6 +71,9 @@ export interface Image extends BlockBase {
     caption: Text[];
     type: 'file';
     file: File;
+    external?: {
+      url: string;
+    };
   };
 }
 

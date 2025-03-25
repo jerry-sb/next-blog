@@ -106,7 +106,9 @@ const Block = async ({ block }: { block: NotionBlock }) => {
 
   if (block.type === 'image') {
     const captionText = block.image.caption;
-    const { url } = block.image.file;
+    const { url } = block.image?.external
+      ? block.image.external
+      : block.image.file;
     const blockImage = getPublishedImageUrl(url, block.id);
 
     return (
