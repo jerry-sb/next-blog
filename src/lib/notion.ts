@@ -26,12 +26,11 @@ export class Notion {
   async getDatabase(props: Omit<QueryDatabaseParameters, 'database_id'>) {
     try {
       const notion = new Client({ auth: this.#key });
-      const response = await notion.databases.query({
+      return await notion.databases.query({
         database_id: this.#database,
         ...props,
         page_size: 200,
       });
-      return response;
     } catch (error) {
       throw new NotionFetchError(error as NotionError);
     }
@@ -64,6 +63,17 @@ export class Notion {
     try {
       const notion = new Client({ auth: this.#key });
       return await notion.pages.retrieve({ page_id: pageId });
+    } catch (error) {
+      throw new NotionFetchError(error as NotionError);
+    }
+  }
+
+  async getBlockContent(blockId: string) {
+    try {
+      const notion = new Client({ auth: this.#key });
+      return await notion.blocks.children.list({
+        block_id: blockId,
+      });
     } catch (error) {
       throw new NotionFetchError(error as NotionError);
     }

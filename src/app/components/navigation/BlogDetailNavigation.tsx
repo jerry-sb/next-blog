@@ -5,7 +5,6 @@ import { useCallback, useEffect, useState } from 'react';
 import clsx from 'clsx';
 
 const BlogDetailNavigation = ({ blocks }: { blocks: NotionBlockResponse }) => {
-  console.log(JSON.stringify(blocks, null, 2));
   const [viewActiveIds, setViewActiveIds] = useState<string[]>([]);
   const [active, setActive] = useState<boolean[]>([]);
 

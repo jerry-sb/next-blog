@@ -5,11 +5,13 @@ type CategoryNavigationType = 'visible' | 'hidden';
 export type NotionState = {
   categoryNavigation: CategoryNavigationType;
   categoryActive: Record<string, boolean>;
+  clickImage: string;
 };
 
 export type NotionActions = {
   updateCategoryActiveById: (id: string) => void;
   updateCategoryNavigation: () => void;
+  updateClickImage: (url: string) => void;
 };
 
 export type NotionStore = NotionState & NotionActions;
@@ -20,6 +22,7 @@ export const defaultInitState: NotionState = {
       ? 'hidden'
       : 'visible',
   categoryActive: {},
+  clickImage: '',
 };
 
 export const createNotionStore = (
@@ -39,6 +42,11 @@ export const createNotionStore = (
       set({
         categoryNavigation:
           get().categoryNavigation === 'visible' ? 'hidden' : 'visible',
+      });
+    },
+    updateClickImage: (url: string) => {
+      set({
+        clickImage: url,
       });
     },
   }));

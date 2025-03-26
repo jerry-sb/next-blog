@@ -86,6 +86,17 @@ export interface Code extends BlockBase {
   };
 }
 
+/**
+ * 인용문구
+ * */
+export interface Quote extends BlockBase {
+  type: 'quote';
+  quote: {
+    rich_text: Text[];
+    color: string;
+  };
+}
+
 export interface BulletedListItem extends BlockBase {
   type: 'bulleted_list_item';
   bulleted_list_item: {
@@ -132,6 +143,7 @@ export type NotionBlock =
   | Heading2
   | Callout
   | Image
+  | Quote
   | BulletedListItem
   | NumberedListItem
   | Divider

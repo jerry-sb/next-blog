@@ -32,8 +32,10 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
+  modal,
   children,
 }: Readonly<{
+  modal: React.ReactNode;
   children: React.ReactNode;
 }>) {
   return (
@@ -50,6 +52,7 @@ export default function RootLayout({
                 'w-full h-full lg:ps-[var(--side-nav-width)] pt-[var(--header-height)]'
               }
             >
+              {modal}
               {children}
             </main>
           </NotionStoreProvider>

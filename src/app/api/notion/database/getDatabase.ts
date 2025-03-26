@@ -6,7 +6,10 @@ import {
 } from '@/types/notion.page';
 import { Notion } from '@/lib/notion';
 import { NotionBlockResponse } from '@/types/notion.block';
-import { NotionTableResponse } from '@/types/notion.table';
+import {
+  NotionBlockDetailResponse,
+  NotionTableResponse,
+} from '@/types/notion.table';
 
 export const getCategories = async (): Promise<
   NotionDatabaseResponse<CategoryProperty>
@@ -113,6 +116,15 @@ export const getBlogPreviewDetail = async (blogId: string) => {
     `${process.env.NEXT_PUBLIC_NOTION_BLOG_DATABASE}`
   );
   return (await notion.getPage(blogId)) as unknown as Page<BlogProperty>;
+};
+
+export const getBlockDetail = async (blockId: string) => {
+  const notion = Notion.getInstance(
+    `${process.env.NEXT_PUBLIC_NOTION_BLOG_DATABASE}`
+  );
+  return (await notion.getBlockContent(
+    blockId
+  )) as unknown as NotionBlockDetailResponse;
 };
 
 export const getTableBlock = async (

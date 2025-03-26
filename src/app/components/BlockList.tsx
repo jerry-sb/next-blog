@@ -4,12 +4,14 @@ import { Annotations } from '@/types/notion.database';
 import clsx from 'clsx';
 import Spacer from '@/app/components/common/Spacer';
 import { IoDocumentTextOutline } from 'react-icons/io5';
-import Image from 'next/image';
 import CodeWrapper from '@/app/components/CodeWrapper';
 import { StructureBlock } from '@/types/notion.model';
 import { DiCodeigniter } from 'react-icons/di';
-import { getPublishedImageUrl } from '@/lib/util';
-import { getTableBlock } from '@/app/api/notion/database/getDatabase';
+import {
+  getBlockDetail,
+  getTableBlock,
+} from '@/app/api/notion/database/getDatabase';
+import LinkImage from '@/app/components/common/LinkImage';
 
 const getTextClass = (annotations: Annotations) => {
   return clsx('head-text5-normal', {
@@ -17,6 +19,9 @@ const getTextClass = (annotations: Annotations) => {
     italic: annotations.italic,
     'line-through': annotations.strikethrough,
     underline: annotations.underline,
+    [`text-[${annotations.color}]`]: annotations.color !== 'default',
+    'bg-zinc-800/20 text-red-400 font-mono px-1 py-0.5 rounded':
+      annotations.code,
   });
 };
 
@@ -73,6 +78,39 @@ const Block = async ({ block }: { block: NotionBlock }) => {
     return <h3 className="head-text4 mb-2 head-color">{headingText}</h3>;
   }
 
+  if (block.type === 'quote') {
+    const quoteNodes: React.ReactNode[] = [
+      <span
+        key={`p0`}
+        className={getTextClass(block.quote.rich_text[0].annotations)}
+      >
+        {block.quote.rich_text[0].plain_text}
+      </span>,
+    ];
+    const quote = await getBlockDetail(block.id);
+
+    if (quote.results.length > 0) {
+      quote.results.forEach((result, index) => {
+        if (result.type === 'paragraph') {
+          quoteNodes.push(
+            <span
+              key={`p${index + 1}`}
+              className={getTextClass(
+                result.paragraph.rich_text[0].annotations
+              )}
+            >
+              {result.paragraph.rich_text[0].plain_text}
+            </span>
+          );
+        }
+      });
+    }
+
+    return (
+      <div className="mb-5 pl-4 border-l-4 border-heading">{quoteNodes}</div>
+    );
+  }
+
   if (block.type === 'table') {
     const tableData = await getTableBlock(block.id);
 
@@ -109,7 +147,6 @@ const Block = async ({ block }: { block: NotionBlock }) => {
     const { url } = block.image?.external
       ? block.image.external
       : block.image.file;
-    const blockImage = getPublishedImageUrl(url, block.id);
 
     return (
       <div className="mb-10">
@@ -125,10 +162,7 @@ const Block = async ({ block }: { block: NotionBlock }) => {
             </div>
           </div>
         )}
-
-        <div className={'relative w-full p-5 h-auto'}>
-          <Image src={blockImage} alt="image" width={800} height={600} />
-        </div>
+        <LinkImage blockId={block.id} url={url} />
       </div>
     );
   }
