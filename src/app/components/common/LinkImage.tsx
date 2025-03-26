@@ -13,7 +13,7 @@ const LinkImage = ({ url, blockId }: { url: string; blockId: string }) => {
   const blockImage = getPublishedImageUrl(url, blockId);
   const onClickImage = useCallback(() => {
     updateClickImage(blockImage);
-    router.push('/image');
+    router.replace('/image');
   }, [router]);
 
   return (
