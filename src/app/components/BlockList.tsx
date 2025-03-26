@@ -11,7 +11,9 @@ import {
   getBlockDetail,
   getTableBlock,
 } from '@/app/api/notion/database/getDatabase';
-import LinkImage from '@/app/components/common/LinkImage';
+import { getPublishedImageUrl } from '@/lib/util';
+import Image from 'next/image';
+import Link from 'next/link';
 
 const getTextClass = (annotations: Annotations) => {
   return clsx('head-text5-normal', {
@@ -147,6 +149,7 @@ const Block = async ({ block }: { block: NotionBlock }) => {
     const { url } = block.image?.external
       ? block.image.external
       : block.image.file;
+    const blockImage = getPublishedImageUrl(url, block.id);
 
     return (
       <div className="mb-10">
@@ -162,7 +165,12 @@ const Block = async ({ block }: { block: NotionBlock }) => {
             </div>
           </div>
         )}
-        <LinkImage blockId={block.id} url={url} />
+
+        <Link href={`/image?blockId=${block.id}&imageUrl=${url}`}>
+          <div className={'relative w-full p-5 h-auto'}>
+            <Image src={blockImage} alt="image" width={800} height={600} />
+          </div>
+        </Link>
       </div>
     );
   }
