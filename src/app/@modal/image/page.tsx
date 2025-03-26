@@ -8,7 +8,10 @@ interface ModalProps {
 
 export default async function ModalImagePage({ searchParams }: ModalProps) {
   const { imageUrl, blockId } = await searchParams;
-  const blockImage = getPublishedImageUrl(imageUrl, blockId);
+  const blockImage = getPublishedImageUrl(
+    decodeURIComponent(imageUrl),
+    blockId
+  );
 
   return (
     <Modal>

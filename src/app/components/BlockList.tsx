@@ -166,7 +166,9 @@ const Block = async ({ block }: { block: NotionBlock }) => {
           </div>
         )}
 
-        <Link href={`/image?blockId=${block.id}&imageUrl=${url}`}>
+        <Link
+          href={`/image?blockId=${block.id}&imageUrl=${encodeURIComponent(url)}`}
+        >
           <div className={'relative w-full p-5 h-auto'}>
             <Image src={blockImage} alt="image" width={800} height={600} />
           </div>
