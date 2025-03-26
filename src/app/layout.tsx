@@ -6,6 +6,7 @@ import './global.css';
 import CategoryNavigation from '@/app/components/navigation/CategoryNavigation';
 import { NotionStoreProvider } from '@/app/stores/notion-store-provider';
 import CategoryNavigationLayout from '@/app/components/navigation/CategoryNavigationLayout';
+import ModalFlag from '@/app/components/modal/ModalFlag';
 
 const jua = Open_Sans({
   variable: '--font-jua',
@@ -32,10 +33,8 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-  modal,
   children,
 }: Readonly<{
-  modal: React.ReactNode;
   children: React.ReactNode;
 }>) {
   return (
@@ -49,11 +48,11 @@ export default function RootLayout({
             </CategoryNavigationLayout>
             <main
               className={
-                'w-full h-full lg:ps-[var(--side-nav-width)] pt-[var(--header-height)]'
+                'relative w-full h-full lg:ps-[var(--side-nav-width)] pt-[var(--header-height)]'
               }
             >
-              {modal}
               {children}
+              <ModalFlag />
             </main>
           </NotionStoreProvider>
         </Providers>

@@ -13,7 +13,7 @@ import {
 } from '@/app/api/notion/database/getDatabase';
 import { getPublishedImageUrl } from '@/lib/util';
 import Image from 'next/image';
-import Link from 'next/link';
+import ImageModalOpen from '@/app/components/modal/ImageModalOpen';
 
 const getTextClass = (annotations: Annotations) => {
   return clsx('head-text5-normal', {
@@ -165,14 +165,11 @@ const Block = async ({ block }: { block: NotionBlock }) => {
             </div>
           </div>
         )}
-
-        <Link
-          href={`/image?blockId=${block.id}&imageUrl=${encodeURIComponent(url)}`}
-        >
+        <ImageModalOpen imageUrl={blockImage}>
           <div className={'relative w-full p-5 h-auto'}>
             <Image src={blockImage} alt="image" width={800} height={600} />
           </div>
-        </Link>
+        </ImageModalOpen>
       </div>
     );
   }
