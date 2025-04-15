@@ -30,13 +30,61 @@ const getTextClass = (annotations: Annotations) => {
 const Block = async ({ block }: { block: NotionBlock }) => {
   if (block.type === 'bulleted_list_item') {
     const texts = block.bulleted_list_item.rich_text;
+    const subBullets: React.ReactNode[] = [];
+
+    if (block.has_children) {
+      const subBulletDetail = await getBlockDetail(block.id);
+
+      if (subBulletDetail.results.length > 0) {
+        subBulletDetail.results.forEach((result, index) => {
+          if (result.type === 'bulleted_list_item') {
+            const texts = result.bulleted_list_item.rich_text;
+            subBullets.push(
+              <div
+                key={`p${index + 1}`}
+                className={
+                  "my-3 px-5 relative pl-[30px] before:content-['🔸'] before:absolute before:left-0 before:text-[16px]"
+                }
+              >
+                {texts.map((text, index) => (
+                  <span
+                    key={`p${index}`}
+                    className={getTextClass(text.annotations)}
+                  >
+                    {text.plain_text}
+                  </span>
+                ))}
+              </div>
+            );
+          }
+
+          if (result.type === 'paragraph') {
+            const texts = result.paragraph.rich_text;
+            subBullets.push(
+              <div key={`p${index + 1}`} className={'my-3 relative'}>
+                {texts.map((text, index) => (
+                  <span
+                    key={`p${index}`}
+                    className={getTextClass(text.annotations)}
+                  >
+                    {text.plain_text}
+                  </span>
+                ))}
+              </div>
+            );
+          }
+        });
+      }
+    }
+
     return (
-      <div className="my-3 px-5 before:content-dot">
+      <div className="my-3 px-5 relative pl-[30px] before:content-['✅'] before:absolute before:left-0 before:text-[20px]">
         {texts.map((text, index) => (
           <span key={`p${index}`} className={getTextClass(text.annotations)}>
             {text.plain_text}
           </span>
         ))}
+        {subBullets}
       </div>
     );
   }
@@ -89,23 +137,26 @@ const Block = async ({ block }: { block: NotionBlock }) => {
         {block.quote.rich_text[0].plain_text}
       </span>,
     ];
-    const quote = await getBlockDetail(block.id);
 
-    if (quote.results.length > 0) {
-      quote.results.forEach((result, index) => {
-        if (result.type === 'paragraph') {
-          quoteNodes.push(
-            <span
-              key={`p${index + 1}`}
-              className={getTextClass(
-                result.paragraph.rich_text[0].annotations
-              )}
-            >
-              {result.paragraph.rich_text[0].plain_text}
-            </span>
-          );
-        }
-      });
+    if (block.has_children) {
+      const quote = await getBlockDetail(block.id);
+
+      if (quote.results.length > 0) {
+        quote.results.forEach((result, index) => {
+          if (result.type === 'paragraph') {
+            quoteNodes.push(
+              <span
+                key={`p${index + 1}`}
+                className={getTextClass(
+                  result.paragraph.rich_text[0].annotations
+                )}
+              >
+                {result.paragraph.rich_text[0].plain_text}
+              </span>
+            );
+          }
+        });
+      }
     }
 
     return (

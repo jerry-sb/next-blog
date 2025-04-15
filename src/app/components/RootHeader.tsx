@@ -25,17 +25,11 @@ const RootHeader = () => {
               'hidden lg:flex flex-grow justify-end items-center gap-4 sm:gap-7'
             }
           >
-            <Link className={'relative'} href={'/'}>
-              <span
-                className={
-                  'absolute text-xs top-[-10px] left-[-15px] font-bold'
-                }
-              >
-                준비중...
-              </span>
-              <p className={'font-bold italic text-lg line-through'}>
-                About me.
-              </p>
+            <Link
+              className={'relative'}
+              href={'/detail/1d3817e60e4680fc86e5fcdff8526c26'}
+            >
+              <p className={'font-bold italic text-lg'}>About me.</p>
             </Link>
             <ThemeToggleButton />
           </div>

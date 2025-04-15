@@ -195,13 +195,6 @@
 }
 
 @layer utilities {
-    .content-dot {
-        @apply inline-block w-[20px];
-        content: "✅ ";
-        font-size: 20px;
-        margin-right: 10px;
-    }
-
     .custom-scrollbar {
         @apply [&::-webkit-scrollbar]:w-4;
         overflow-x: scroll !important;
