@@ -13,9 +13,11 @@ import { getPublishedImageUrl } from '@/lib/util';
 
 export async function generateStaticParams() {
   const blogs = await getBlogs();
-  return blogs.results.map((item) => ({
+  const ids = blogs.results.map((item) => ({
     id: item.id,
   }));
+
+  return [...ids, { id: '1d3817e60e4680fc86e5fcdff8526c26' }];
 }
 
 export async function generateMetadata({
