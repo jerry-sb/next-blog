@@ -145,14 +145,16 @@ const Block = async ({ block }: { block: NotionBlock }) => {
         quote.results.forEach((result, index) => {
           if (result.type === 'paragraph') {
             quoteNodes.push(
-              <span
-                key={`p${index + 1}`}
-                className={getTextClass(
-                  result.paragraph.rich_text[0].annotations
-                )}
-              >
-                {result.paragraph.rich_text[0].plain_text}
-              </span>
+              <div key={`div${index + 1}`} className={'my-3 relative'}>
+                {result.paragraph.rich_text.map((text, index) => (
+                  <span
+                    key={`p${index}`}
+                    className={getTextClass(text.annotations)}
+                  >
+                    {text.plain_text}
+                  </span>
+                ))}
+              </div>
             );
           }
         });
